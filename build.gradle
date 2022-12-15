@@ -3,15 +3,16 @@ buildscript {
     repositories {
         google()
     }
-    dependencies {
-        def nav_version = "2.5.2"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+    ext {
+        compose_ui_version = '1.3.2'
+        nav_version = "2.5.3"
     }
 }
 plugins {
-    id 'com.android.application' version '7.2.1' apply false
-    id 'com.android.library' version '7.2.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+    id 'com.android.application' version '7.3.1' apply false
+    id 'com.android.library' version '7.3.1' apply false
+    id 'org.jetbrains.kotlin.android' version '1.6.20' apply false
+    id 'com.google.dagger.hilt.android' version '2.44' apply false
 }
 
 task clean(type: Delete) {

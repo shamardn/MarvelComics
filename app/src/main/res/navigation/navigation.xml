@@ -2,31 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment">
+    android:id="@+id/navigation">
 
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.shamardn.android.marvelcomics.ui.home.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
-
-    </fragment>
-    <fragment
-        android:id="@+id/detailsFragment"
-        android:name="com.shamardn.android.marvelcomics.ui.details.DetailsFragment"
-        android:label="DetailsFragment"
-        tools:layout="@layout/fragment_details">
-        <argument
-            android:name="heroData"
-            app:argType="com.shamardn.android.marvelcomics.data.model.hero.MarvelHero"
-            app:nullable="true"/>
-        <action
-            android:id="@+id/action_detailsFragment_to_homeFragment"
-            app:popUpTo="@id/homeFragment"
-            app:launchSingleTop="true" />
-    </fragment>
 </navigation>

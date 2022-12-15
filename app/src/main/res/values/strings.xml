@@ -2,4 +2,11 @@
     <string name="app_name">Marvel Comics</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="desc_fake">In the alternate reality of Earth-1610, a young New York City teen was bitten by a genetically enhanced spider. When the Peter Parker of that dimension was killed, the teen—named Miles Morales—was inspired to take up the fallen mantle.</string>
+    <string name="desc">Description</string>
+    <string name="fake_name">Spider Man</string>
+    <string name="date">Nov 12 , 2021</string>
+    <string name="more">More >></string>
+    <string name="back_icon">back icon</string>
+    <string name="comics">Comics</string>
 </resources>
