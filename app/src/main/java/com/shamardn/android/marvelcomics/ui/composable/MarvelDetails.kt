@@ -1,31 +1,27 @@
 package com.shamardn.android.marvelcomics.ui.composable
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.shamardn.android.marvelcomics.R
-import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersUiState
+import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersDetailsUiState
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun MarvelDetails(
-    state: CharactersUiState,
+    state: CharactersDetailsUiState,
     onBackClick: () -> Unit,
-    onClickCharacter: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -40,17 +36,17 @@ fun MarvelDetails(
                 .fillMaxWidth()
                 .height(300.dp)
         ) {
-
+            val img = "${state.thumbnail.path}.${state.thumbnail.extension}"
             Image(
-                painter = painterResource(R.drawable.ic_onboarding),
+                painter = rememberAsyncImagePainter(model = img),
                 contentDescription = "Description",
                 modifier = Modifier
                     .fillMaxSize(),
+                contentScale = ContentScale.FillBounds,
                 )
 
             BackIcon(
-                modifier = Modifier.align(Alignment.TopStart),
-                onBackClick,
+                modifier = Modifier.align(Alignment.TopStart), onBackClick,
             )
         }
         Row(
@@ -60,14 +56,14 @@ fun MarvelDetails(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = stringResource(R.string.fake_name),
-                color = MaterialTheme.colors.onBackground, style = MaterialTheme.typography.h5,
-                modifier = Modifier,
-            )
+                Text(
+                    text = state.name,
+                    color = MaterialTheme.colors.onBackground, style = MaterialTheme.typography.h5,
+                    modifier = Modifier,
+                )
 
             Text(
-                text = stringResource(R.string.date),
+                text = state.modifiedDate.toString(),
                 color = MaterialTheme.colors.onBackground, style = MaterialTheme.typography.caption,
                 modifier = Modifier,
             )
@@ -80,13 +76,14 @@ fun MarvelDetails(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(
-                text = stringResource(R.string.desc),
-                color = MaterialTheme.colors.onBackground,
-                style = MaterialTheme.typography.subtitle2,
-                modifier = Modifier,
+                Text(
+                    text =  state.description,
+                    color = MaterialTheme.colors.onBackground,
+                    style = MaterialTheme.typography.subtitle2,
+                    modifier = Modifier,
 
-                )
+                    )
+
             Text(
                 text = stringResource(R.string.more),
                 color = MaterialTheme.colors.onBackground, style = MaterialTheme.typography.caption,
@@ -110,24 +107,25 @@ fun MarvelDetails(
                 )
             }
             item {
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(16.dp),
-                ) {
-                    items(items = state.marvelCharacters,
-                        key = { currentCharacter ->
-                            currentCharacter.name
-                        }
-                        ){
-                        ItemComic(
-                            state = it,
-                            onClick = { onClickCharacter() },
-                            modifier = Modifier.animateItemPlacement()
-                                .size(150.dp,100.dp)
-                        )
-                    }
-
-                }
+//                LazyRow(
+//                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+//                    contentPadding = PaddingValues(16.dp),
+//                ) {
+//                    items(items = state.marvelCharacters,
+//                        key = { currentCharacter ->
+//                            currentCharacter.name
+//                        }
+//                        ){
+//                        ItemComic(
+//                            state = it,
+//                            onClick = { onClickCharacter() },
+//                            modifier = Modifier
+//                                .animateItemPlacement()
+//                                .size(150.dp, 100.dp)
+//                        )
+//                    }
+//
+//                }
             }
         }
 

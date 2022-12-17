@@ -7,4 +7,6 @@ import retrofit2.http.GET
 interface MarvelService {
     @GET("characters")
     suspend fun getMarvelCharacters(): BaseResponse<MarvelCharacterDTO>?
+
+
 }

@@ -1,49 +1,20 @@
 package com.shamardn.android.marvelcomics.ui.screen.characters
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.shamardn.android.marvelcomics.domain.usecase.GetMarvelCharactersUseCase
-import com.shamardn.android.marvelcomics.ui.screen.characters.mapper.toCharactersDetailsUiState
-import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersUiState
+import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CharacterViewModel @Inject constructor(
-    private val getMarvelCharactersUseCase: GetMarvelCharactersUseCase
-): ViewModel() {
+class CharacterViewModel @Inject constructor() : ViewModel() {
 
-    private val _state = MutableStateFlow(CharactersUiState())
+    private val _state = MutableStateFlow(CharactersDetailsUiState())
     val state = _state.asStateFlow()
 
-    init {
-        getMarvelCharacter()
+    fun updateCurrentCharacter(currentCharacter: CharactersDetailsUiState){
+        _state.value = currentCharacter
     }
 
-    private fun getMarvelCharacter() {
-            viewModelScope.launch {
-                try {
-                    val characters = getMarvelCharactersUseCase()?.map { it.toCharactersDetailsUiState() }
-                    _state.update { it.copy(
-                        marvelCharacters = characters!!
-                    )
-                    }
-                } catch (e: Throwable) {
-                    _state.update {
-                        it.copy(
-                            isError = true,
-                        )
-                    }
-                }
-        }
-
-    }
-
-    fun onClickCharacter(){
-
-    }
 }

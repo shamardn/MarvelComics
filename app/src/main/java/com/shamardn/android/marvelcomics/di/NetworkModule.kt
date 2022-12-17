@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -26,12 +27,22 @@ object NetworkModule {
         return retrofit.create(MarvelService::class.java)
     }
 
+    @Provides
+    fun provideLoggingInterceptor() = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
+
     @Singleton
     @Provides
-    fun provideOkHttpClient(marvelInterceptor: MarvelInterceptor): OkHttpClient {
+    fun provideOkHttpClient(
+        marvelInterceptor: MarvelInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
         val builder = OkHttpClient()
             .newBuilder()
             .addInterceptor(marvelInterceptor)
+            .addInterceptor(loggingInterceptor)
             .callTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
         return builder.build()

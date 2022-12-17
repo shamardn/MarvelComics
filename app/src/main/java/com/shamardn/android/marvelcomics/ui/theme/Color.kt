@@ -9,7 +9,7 @@ val Gray900_1 = Color(0xFF1F1B1B)
 val Gray900_2 = Color(0xFF222222)
 val Gray700 = Color(0xFF5F5F5F)
 val Gray500 = Color(0xFF9B9B9B)
-val Gray200 = Color(0xFFD1D0D0)
+val Gray200 = Color(0x66D1D0D0)
 
 val PrimaryTextColor = Color(0xFFE82627)
 val SecondaryTextColor = Color(0xFF222222)
