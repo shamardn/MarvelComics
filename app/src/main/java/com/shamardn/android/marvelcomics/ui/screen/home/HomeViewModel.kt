@@ -3,9 +3,8 @@ package com.shamardn.android.marvelcomics.ui.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shamardn.android.marvelcomics.domain.usecase.GetMarvelCharactersUseCase
-import com.shamardn.android.marvelcomics.ui.screen.characters.mapper.toCharactersDetailsUiState
-import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersDetailsUiState
-import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersUiState
+import com.shamardn.android.marvelcomics.ui.screen.characterDetails.mapper.toCharactersDetailsUiState
+import com.shamardn.android.marvelcomics.ui.screen.home.uistate.CharactersUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,9 +25,9 @@ class HomeViewModel @Inject constructor(
     fun getCharacters(){
         viewModelScope.launch {
             try {
-                val characters = getMarvelCharactersUseCase()?.map { it.toCharactersDetailsUiState() }
+                val characters = getMarvelCharactersUseCase().map { it.toCharactersDetailsUiState() }
                 _state.update { it.copy(
-                    marvelCharacters = characters!!
+                    marvelCharacters = characters
                 )
                 }
             } catch (e: Throwable) {
@@ -39,14 +38,5 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun onClickCharacter(character: CharactersDetailsUiState){
-        _state.update {
-            it.copy(
-                marvelCharacters = it.marvelCharacters.filterNot { marvelCharacter ->
-                   marvelCharacter.name == character.name
-                }
-        ) }
     }
 }
