@@ -1,4 +1,4 @@
-package com.shamardn.android.marvelcomics.ui.screen.characters
+package com.shamardn.android.marvelcomics.ui.screen.characterDetails
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -7,7 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.shamardn.android.marvelcomics.Screen
 import com.shamardn.android.marvelcomics.ui.composable.MarvelDetails
-import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersDetailsUiState
+import com.shamardn.android.marvelcomics.ui.screen.characterDetails.uistate.CharacterDetailsUiState
 
 @Composable
 fun CharacterScreen(
@@ -16,26 +16,21 @@ fun CharacterScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    val currentCharacter =
-        navController.previousBackStackEntry?.savedStateHandle?.get<CharactersDetailsUiState>(Screen.Character.route)
-
     CharacterContent(
         state = state,
         onBackClick = { navController.popBackStack(Screen.Home.route, false) }
     )
 
-    if (currentCharacter != null) {
-        viewModel.updateCurrentCharacter(currentCharacter)
-    }
 }
 
 @Composable
 fun CharacterContent(
-    state: CharactersDetailsUiState,
+    state: CharacterDetailsUiState,
     onBackClick: () -> Unit,
 ) {
     MarvelDetails(
         state = state,
-        onBackClick,
+        onBackClick = onBackClick,
+        onClickComic = {},
     )
 }
