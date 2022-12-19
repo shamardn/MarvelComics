@@ -9,8 +9,11 @@ class MarvelRepositoryImpl @Inject constructor(
     private val marvelService: MarvelService
     ) : MarvelRepository {
 
-    override suspend fun getMarvelCharacters(): BaseResponse<MarvelCharacterDTO>? {
+    override suspend fun getMarvelCharacters(): BaseResponse<MarvelCharacterDTO> {
        return marvelService.getMarvelCharacters()
+    }
+    override suspend fun getCharacterId(characterId: Int): BaseResponse<MarvelCharacterDTO> {
+        return marvelService.getCharacterId(characterId)
     }
 }
 
