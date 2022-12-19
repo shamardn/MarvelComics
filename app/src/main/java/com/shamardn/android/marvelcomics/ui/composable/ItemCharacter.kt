@@ -17,25 +17,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersDetailsUiState
+import com.shamardn.android.marvelcomics.ui.screen.characterDetails.uistate.CharacterDetailsUiState
 import com.shamardn.android.marvelcomics.ui.theme.Red600
 
 @Composable
 fun ItemCharacter(
-    state: CharactersDetailsUiState,
-    onClick: (CharactersDetailsUiState) -> Unit,
-    modifier: Modifier,
+    state: CharacterDetailsUiState,
+    onClick: (CharacterDetailsUiState) -> Unit,
 ) {
     Card(
         modifier = Modifier
-            .width(150.dp)
+            .width(100.dp)
+            .height(130.dp)
             .clip(CutCornerShape(bottomEnd = 16.dp))
     ) {
         Column(
             modifier = Modifier
                 .clickable{ onClick(state) }
                 .fillMaxWidth()
-                .height(300.dp)
                 .background(color = Red600),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
@@ -46,7 +45,7 @@ fun ItemCharacter(
                 contentDescription = "Description",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(170.dp),
+                    .height(80.dp),
                 contentScale = ContentScale.FillBounds
             )
 
@@ -54,10 +53,10 @@ fun ItemCharacter(
                 text = state.name,
                 textAlign = TextAlign.Start,
                 color = Color.White,
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.caption,
                 modifier = Modifier
-                    .padding(16.dp)
-                    .height(130.dp)
+                    .padding(8.dp)
+                    .height(50.dp)
             )
         }
     }
