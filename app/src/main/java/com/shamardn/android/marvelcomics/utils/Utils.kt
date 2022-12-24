@@ -11,3 +11,9 @@ fun convertStringToDate(dateString: String?): Date {
         formatter.parse(dateString) ?: Date()
     }
 }
+
+fun formatDate(date: Date): String{
+    val formatDate = SimpleDateFormat("MMMM yyyy", Locale("en"))
+    return formatDate.format(date).toString()
+}
+
