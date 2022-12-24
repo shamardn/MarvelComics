@@ -9,4 +9,6 @@ data class MarvelCharacter(
     val modifiedDate: Date,
     val thumbnail: Thumbnail,
     val resourceURI: String,
+    val comics: MarvelList<MarvelBasic>,
+//    val series: MarvelList<MarvelBasic>,
 )

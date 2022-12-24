@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 class CharacterDetailsMapper @Inject constructor(
     private val thumbnailMapper: ThumbnailMapper,
+    private val marvelByCharacterIdMapper: MarvelByCharacterIdMapper,
 ) : Mapper<BaseResponse<MarvelCharacterDTO>, MarvelCharacter>() {
     override fun map(input: BaseResponse<MarvelCharacterDTO>): MarvelCharacter {
         var thumbnailNotNull =
@@ -25,7 +26,9 @@ class CharacterDetailsMapper @Inject constructor(
             description = input.data?.results?.first()?.description ?: "",
             modifiedDate = convertStringToDate(input.data?.results?.first()?.modified),
             thumbnail = thumbnailMapper.map(thumbnailNotNull),
-            resourceURI = input.data?.results?.first()?.resourceURI ?: ""
+            resourceURI = input.data?.results?.first()?.resourceURI ?: "",
+            comics = marvelByCharacterIdMapper.map(input.data?.results?.first()?.comics!!),
+//            series = marvelByCharacterIdMapper.map(input.data?.results?.first()?.series!!),
         )
     }
 }

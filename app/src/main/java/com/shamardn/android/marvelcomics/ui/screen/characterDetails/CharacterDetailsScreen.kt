@@ -6,11 +6,11 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.shamardn.android.marvelcomics.Screen
-import com.shamardn.android.marvelcomics.ui.composable.MarvelDetails
+import com.shamardn.android.marvelcomics.ui.composable.MarvelCharacterDetails
 import com.shamardn.android.marvelcomics.ui.screen.characterDetails.uistate.CharacterDetailsUiState
 
 @Composable
-fun CharacterScreen(
+fun CharacterDetailsScreen(
     navController: NavController,
     viewModel: CharacterViewModel = hiltViewModel(),
 ) {
@@ -18,19 +18,23 @@ fun CharacterScreen(
 
     CharacterContent(
         state = state,
-        onBackClick = { navController.popBackStack(Screen.Home.route, false) }
+        onBackClick = { navController.popBackStack(Screen.Home.route, false) },
+        onClickComics = { id -> navController.navigate("${Screen.Comics.route}/$id")},
+//        onClickSeries = { id -> navController.navigate("${Screen.Series.route}/$id")},
     )
-
 }
 
 @Composable
 fun CharacterContent(
     state: CharacterDetailsUiState,
     onBackClick: () -> Unit,
+    onClickComics: (Int) -> Unit,
+//    onClickSeries: (Int) -> Unit,
 ) {
-    MarvelDetails(
+    MarvelCharacterDetails(
         state = state,
         onBackClick = onBackClick,
-        onClickComic = {},
+        onClickComics = onClickComics,
+//        onClickSeries = onClickSeries,
     )
 }

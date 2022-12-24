@@ -1,11 +1,10 @@
 package com.shamardn.android.marvelcomics.ui.screen.characterDetails
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.shamardn.android.marvelcomics.domain.usecase.FetchCharacterIdUseCase
-import com.shamardn.android.marvelcomics.ui.screen.characterDetails.mapper.toCharactersDetailsUiState
+import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelCharacterIdUseCase
+import com.shamardn.android.marvelcomics.ui.screen.characterDetails.mapper.CharactersUiStateMapper
 import com.shamardn.android.marvelcomics.ui.screen.characterDetails.uistate.CharacterDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,37 +15,37 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharacterViewModel @Inject constructor(
-    val getCharacterDetails: FetchCharacterIdUseCase,
+    val getCharacterDetails: FetchMarvelCharacterIdUseCase,
+    val charactersUiStateMapper: CharactersUiStateMapper,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CharacterDetailsUiState())
     val state = _state.asStateFlow()
     private val arg: String = checkNotNull(savedStateHandle["id"])
+    val id = arg.toInt()
 
     init {
         getCharacterById()
     }
 
-    private fun getCharacterById(){
-        _state.update { it.copy( id = arg.toInt() ) }
-        val id = _state.value.id
+    private fun getCharacterById() {
         viewModelScope.launch {
             try {
-                Log.i("wsh"," id = ${_state.value.id}")
-               val currentCharacter = getCharacterDetails(id).toCharactersDetailsUiState()
-                _state.update { it.copy(
-                    id = currentCharacter.id,
-                    name = currentCharacter.name,
-                    description = currentCharacter.description,
-                    modifiedDate = currentCharacter.modifiedDate,
-                    thumbnail = currentCharacter.thumbnail,
-                    resourceURI = currentCharacter.resourceURI,
-                )
+                val currentCharacter = charactersUiStateMapper.map(getCharacterDetails(id))
+                _state.update {
+                    it.copy(
+                        id = currentCharacter.id,
+                        name = currentCharacter.name,
+                        description = currentCharacter.description,
+                        modifiedDate = currentCharacter.modifiedDate,
+                        thumbnail = currentCharacter.thumbnail,
+                        resourceURI = currentCharacter.resourceURI,
+                        comics = currentCharacter.comics,
+//                        series = currentCharacter.series,
+                    )
                 }
-                Log.i("wsh"," currentCharacter = $currentCharacter")
-
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 throw e
             }
         }

@@ -6,8 +6,9 @@ import com.shamardn.android.marvelcomics.domain.model.MarvelCharacter
 import com.shamardn.android.marvelcomics.utils.convertStringToDate
 import javax.inject.Inject
 
-class CharacterMapper @Inject constructor(
+class CharactersMapper @Inject constructor(
     private val thumbnailMapper: ThumbnailMapper,
+    private val marvelByCharacterIdMapper: MarvelByCharacterIdMapper,
 ) : Mapper<BaseResponse<MarvelCharacterDTO>, List<MarvelCharacter>>() {
     override fun map(input: BaseResponse<MarvelCharacterDTO>): List<MarvelCharacter> {
         var result = listOf<MarvelCharacterDTO>()
@@ -22,6 +23,8 @@ class CharacterMapper @Inject constructor(
                 modifiedDate = convertStringToDate(it.modified),
                 thumbnail = thumbnailMapper.map(it.thumbnail!!),
                 resourceURI = it.resourceURI ?: "",
+                comics = marvelByCharacterIdMapper.map(it.comics!!),
+//                series = marvelByCharacterIdMapper.map(it.comics!!),
             )
         }
     }
