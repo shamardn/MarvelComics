@@ -29,6 +29,10 @@ class MarvelRepositoryImpl @Inject constructor(
     override suspend fun getComicsByCharacterId(characterId: Int): BaseResponse<MarvelComicDTO> {
         return marvelService.getComicsByCharacterId(characterId)
     }
+
+    override suspend fun getCharactersByComicId(comicId: Int): BaseResponse<MarvelCharacterDTO> {
+        return marvelService.getCharactersByComicId(comicId)
+    }
 }
 
 

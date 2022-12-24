@@ -12,14 +12,14 @@ import com.shamardn.android.marvelcomics.ui.screen.comics.uistate.ComicDetailsUi
 @Composable
 fun ComicDetailsScreen(
     navController: NavController,
-    viewModel: ComicViewModel = hiltViewModel(),
+    viewModel: ComicDetailsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
 
     ComicContent(
         state = state,
         onBackClick = { navController.popBackStack() },
-        onClickCharacter = { id -> navController.navigate("${Screen.CharacterDetails.route}/$id")},
+        onClickCharacter = { id -> navController.navigate("${Screen.Characters.route}/$id")},
 //        onClickSeries = { id -> navController.navigate("${Screen.Series.route}/$id")},
     )
 }

@@ -20,8 +20,7 @@ import com.shamardn.android.marvelcomics.ui.theme.Red600
 @Composable
 fun ItemCharacter(
     state: CharacterDetailsUiState,
-    onClick: (CharacterDetailsUiState) -> Unit,
-    modifier: Modifier,
+    onClickCharacter: (CharacterDetailsUiState) -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -31,7 +30,7 @@ fun ItemCharacter(
     ) {
         Column(
             modifier = Modifier
-                .clickable { onClick(state) }
+                .clickable { onClickCharacter(state) }
                 .fillMaxWidth()
                 .background(color = Red600),
             horizontalAlignment = Alignment.CenterHorizontally,

@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ComicViewModel @Inject constructor(
+class ComicDetailsViewModel @Inject constructor(
     val getComicDetails: FetchMarvelComicIdUseCase,
     val comicsUiStateMapper: ComicsUiStateMapper,
     savedStateHandle: SavedStateHandle,

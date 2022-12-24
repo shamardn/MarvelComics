@@ -14,4 +14,6 @@ interface MarvelRepository {
     suspend fun getComicId(comicId: Int): BaseResponse<MarvelComicDTO>
 
     suspend fun getComicsByCharacterId(characterId: Int): BaseResponse<MarvelComicDTO>
+
+    suspend fun getCharactersByComicId(comicId: Int): BaseResponse<MarvelCharacterDTO>
 }

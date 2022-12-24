@@ -94,8 +94,8 @@ private fun HomeContent(
                         character.name
                     }) {
                         ItemCharacter(state = it,
-                            onClick = { onClickCharacter(it.id) },
-                            modifier = Modifier.animateItemPlacement())
+                            onClickCharacter = { onClickCharacter(it.id) }
+                        )
                     }
                 }
             }
