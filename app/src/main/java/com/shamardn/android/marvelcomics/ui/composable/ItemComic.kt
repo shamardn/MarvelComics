@@ -12,31 +12,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersDetailsUiState
-import com.shamardn.android.marvelcomics.ui.theme.Gray500
-import com.shamardn.android.marvelcomics.ui.theme.PrimaryTextColor
+import com.shamardn.android.marvelcomics.ui.screen.comics.uistate.ComicDetailsUiState
 
 @Composable
 fun ItemComic(
-    state: CharactersDetailsUiState,
-    onClick: (CharactersDetailsUiState) -> Unit,
-    modifier: Modifier,
+    state: ComicDetailsUiState,
+    onClickComic: (ComicDetailsUiState) -> Unit,
 ) {
     Card(
         modifier = Modifier
             .width(150.dp)
             .clip(RoundedCornerShape(16.dp))
+            .clickable { onClickComic(state) }
     ) {
         Column(
             modifier = Modifier
-                .clickable{ onClick(state) }
                 .fillMaxWidth()
-                .height(210.dp)
-                .background(color = Gray500)
+                .height(150.dp)
+                .background(color = Color.Red)
                 .clip(RoundedCornerShape(16.dp)),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
@@ -47,17 +45,16 @@ fun ItemComic(
                 contentDescription = "Description",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
-                    .clip(RoundedCornerShape(16.dp)),
+                    .height(100.dp),
                 contentScale = ContentScale.FillBounds
             )
 
             Text(
-                text = state.name,
+                text = state.title,
                 textAlign = TextAlign.Center,
-                color = PrimaryTextColor,
-                style = MaterialTheme.typography.body1,
-                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
+                color = Color.White,
+                style = MaterialTheme.typography.subtitle2,
+                modifier = Modifier.padding(8.dp)
             )
         }
     }
