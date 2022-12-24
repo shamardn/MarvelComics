@@ -5,7 +5,7 @@ import com.shamardn.android.marvelcomics.domain.mapper.CharacterDetailsMapper
 import com.shamardn.android.marvelcomics.domain.model.MarvelCharacter
 import javax.inject.Inject
 
-class FetchCharacterIdUseCase @Inject constructor(
+class FetchMarvelCharacterIdUseCase @Inject constructor(
    private val marvelRepository: MarvelRepository,
    private val characterDetailsMapper: CharacterDetailsMapper
 ) {
