@@ -27,7 +27,7 @@ fun MarvelSeriesDetails(
     state: SeriesDetailsUiState,
     onBackClick: () -> Unit,
     onClickCharacters: (Int, Int) -> Unit,
-    onClickComics: (Int) -> Unit,
+    onClickComics: (Int, Int) -> Unit,
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
@@ -139,7 +139,7 @@ fun MarvelSeriesDetails(
             item {
                 Card(
                     modifier = Modifier
-                        .clickable { onClickComics(state.id) }
+                        .clickable { onClickComics(state.id, Constants.SERIES_TYPE) }
                         .fillMaxWidth()
                         .height(130.dp)
                         .border(width = 2.dp,

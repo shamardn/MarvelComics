@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shamardn.android.marvelcomics.R
 import com.shamardn.android.marvelcomics.ui.screen.comics.uistate.ComicDetailsUiState
+import com.shamardn.android.marvelcomics.utils.Constants
 import com.shamardn.android.marvelcomics.utils.formatDate
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -25,8 +26,8 @@ import com.shamardn.android.marvelcomics.utils.formatDate
 fun MarvelComicDetails(
     state: ComicDetailsUiState,
     onBackClick: () -> Unit,
-    onClickCharacter: (Int) -> Unit,
-    onClickSeries: (Int) -> Unit,
+    onClickCharacter: (Int, Int) -> Unit,
+    onClickSeries: (Int, Int) -> Unit,
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
@@ -111,7 +112,7 @@ fun MarvelComicDetails(
             item {
                 Card(
                     modifier = Modifier
-                        .clickable { onClickCharacter(state.id) }
+                        .clickable { onClickCharacter(state.id, Constants.COMIC_TYPE) }
                         .fillMaxWidth()
                         .height(130.dp)
                         .border(width = 2.dp,
@@ -138,7 +139,7 @@ fun MarvelComicDetails(
             item {
                 Card(
                     modifier = Modifier
-                        .clickable { onClickSeries(state.id) }
+                        .clickable { onClickSeries(state.id, Constants.COMIC_TYPE) }
                         .fillMaxWidth()
                         .height(130.dp)
                         .border(width = 2.dp,

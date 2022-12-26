@@ -4,8 +4,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelComicsByCharacterIdUseCase
+import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelComicsBySeriesIdUseCase
 import com.shamardn.android.marvelcomics.ui.screen.comics.mapper.ComicsUiStateMapper
 import com.shamardn.android.marvelcomics.ui.screen.comics.uistate.ComicsUiState
+import com.shamardn.android.marvelcomics.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,22 +17,57 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ComicsViewModel @Inject constructor(
-    private val fetchMarvelComic: FetchMarvelComicsByCharacterIdUseCase,
+    private val fetchMarvelComicByCharacterId: FetchMarvelComicsByCharacterIdUseCase,
+    private val fetchMarvelComicBySeriesId: FetchMarvelComicsBySeriesIdUseCase,
     private val comicsUiStateMapper: ComicsUiStateMapper,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _state = MutableStateFlow(ComicsUiState())
     val state = _state.asStateFlow()
     private val arg: String = checkNotNull(savedStateHandle["id"])
-    val id = arg.toInt()
+    private val argIdType: String = checkNotNull(savedStateHandle["idType"])
+    private val id = arg.toInt()
+    private val idType = argIdType.toInt()
     init {
-        getComicsByCharacterId()
+        checkIdType(idType)
+    }
+
+    private fun checkIdType(idType: Int) {
+        when (idType) {
+            Constants.CHARACTER_TYPE -> {
+                getComicsByCharacterId()
+            }
+            Constants.SERIES_TYPE -> {
+                getComicsBySeriesId()
+            }
+            else -> {
+
+            }
+        }
     }
 
     private fun getComicsByCharacterId() {
         viewModelScope.launch {
             try {
-                val comics = fetchMarvelComic(id).map { comicsUiStateMapper.map(it) }
+                val comics = fetchMarvelComicByCharacterId(id).map { comicsUiStateMapper.map(it) }
+                _state.update { it.copy(
+                    marvelComics = comics
+                )
+                }
+            } catch (e: Throwable) {
+                _state.update {
+                    it.copy(
+                        isError = true,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getComicsBySeriesId() {
+        viewModelScope.launch {
+            try {
+                val comics = fetchMarvelComicBySeriesId(id).map { comicsUiStateMapper.map(it) }
                 _state.update { it.copy(
                     marvelComics = comics
                 )

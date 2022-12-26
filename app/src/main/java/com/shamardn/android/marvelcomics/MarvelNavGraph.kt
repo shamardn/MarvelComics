@@ -32,8 +32,11 @@ fun MarvelNavGraph(navController: NavHostController) {
         { CharacterDetailsScreen(navController) }
 
 
-        composable("${Screen.Comics.route}/{id}",
-            arguments = listOf(navArgument(name = "id") { NavType.IntType}, ))
+        composable("${Screen.Comics.route}/{id}/{idType}",
+            arguments = listOf
+                (navArgument(name = "id") { NavType.IntType},
+                navArgument(name = "idType") { NavType.IntType},
+            ))
         { ComicsScreen(navController) }
 
 
@@ -41,8 +44,11 @@ fun MarvelNavGraph(navController: NavHostController) {
             arguments = listOf(navArgument(name = "id") { NavType.IntType}, ))
         { ComicDetailsScreen(navController) }
 
-        composable("${Screen.Series.route}/{id}",
-            arguments = listOf(navArgument(name = "id") { NavType.IntType}, ))
+        composable("${Screen.Series.route}/{id}/{idType}",
+            arguments = listOf(
+                navArgument(name = "id") { NavType.IntType},
+                navArgument(name = "idType") { NavType.IntType},
+            ))
         { SeriesScreen(navController) }
 
         composable("${Screen.SeriesDetails.route}/{id}",

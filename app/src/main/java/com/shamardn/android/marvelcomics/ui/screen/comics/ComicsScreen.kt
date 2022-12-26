@@ -78,9 +78,6 @@ private fun ComicsContent(
             ){
                 items(
                     items = state.marvelComics,
-                    key = { currentComics ->
-                        currentComics.title
-                    }
                 ) {
                     ItemComic(
                         state = it,

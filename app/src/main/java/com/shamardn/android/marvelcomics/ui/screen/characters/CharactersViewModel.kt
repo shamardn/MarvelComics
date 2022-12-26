@@ -26,13 +26,23 @@ class CharactersViewModel @Inject constructor(
     val state = _state.asStateFlow()
     private val arg: String = checkNotNull(savedStateHandle["id"])
     private val argIdType: String = checkNotNull(savedStateHandle["idType"])
-    val id = arg.toInt()
-    val idType = argIdType.toInt()
+    private val id = arg.toInt()
+    private val idType = argIdType.toInt()
     init {
-        if (idType == Constants.COMIC_TYPE){
-            getCharactersByComicsId()
-        }else{
-            getCharactersBySeriesId()
+        checkIdType(idType)
+    }
+
+    private fun checkIdType(idType: Int) {
+        when (idType) {
+            Constants.COMIC_TYPE -> {
+                getCharactersByComicsId()
+            }
+            Constants.SERIES_TYPE -> {
+                getCharactersBySeriesId()
+            }
+            else -> {
+
+            }
         }
     }
 
