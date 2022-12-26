@@ -2,16 +2,16 @@ package com.shamardn.android.marvelcomics.domain.mapper
 
 import com.shamardn.android.marvelcomics.data.remote.response.base.BaseResponse
 import com.shamardn.android.marvelcomics.data.remote.response.common.ThumbnailDTO
-import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelCharacterDTO
-import com.shamardn.android.marvelcomics.domain.model.MarvelCharacter
+import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelSeriesDTO
+import com.shamardn.android.marvelcomics.domain.model.MarvelSeries
 import com.shamardn.android.marvelcomics.utils.convertStringToDate
 import javax.inject.Inject
 
-class CharacterDetailsMapper @Inject constructor(
+class SeriesDetailsMapper @Inject constructor(
     private val thumbnailMapper: ThumbnailMapper,
     private val marvelByCharacterIdMapper: MarvelByCharacterIdMapper,
-) : Mapper<BaseResponse<MarvelCharacterDTO>, MarvelCharacter>() {
-    override fun map(input: BaseResponse<MarvelCharacterDTO>): MarvelCharacter {
+) : Mapper<BaseResponse<MarvelSeriesDTO>, MarvelSeries>() {
+    override fun map(input: BaseResponse<MarvelSeriesDTO>): MarvelSeries {
         var thumbnailNotNull =
             ThumbnailDTO(
                 path = "http://i.annihil.us/u/prod/marvel/i/mg/3/40/4bb4680432f73",
@@ -20,15 +20,14 @@ class CharacterDetailsMapper @Inject constructor(
         if (input.data?.results?.first()?.thumbnail != null) {
             thumbnailNotNull = input.data.results.first().thumbnail!!
         }
-        return MarvelCharacter(
+        return MarvelSeries(
             id = input.data?.results?.first()?.id ?: 0,
-            name = input.data?.results?.first()?.name ?: "",
+            title = input.data?.results?.first()?.title ?: "",
             description = input.data?.results?.first()?.description ?: "",
             modifiedDate = convertStringToDate(input.data?.results?.first()?.modified),
             thumbnail = thumbnailMapper.map(thumbnailNotNull),
-            resourceURI = input.data?.results?.first()?.resourceURI ?: "",
+            characters = marvelByCharacterIdMapper.map(input.data?.results?.first()?.characters!!),
             comics = marvelByCharacterIdMapper.map(input.data?.results?.first()?.comics!!),
-            series = marvelByCharacterIdMapper.map(input.data.results.first().series!!),
         )
     }
 }

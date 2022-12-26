@@ -7,7 +7,7 @@ import com.shamardn.android.marvelcomics.ui.screen.comics.uistate.MarvelListUiSt
 import com.shamardn.android.marvelcomics.ui.screen.home.uistate.MarvelBasicUiState
 import javax.inject.Inject
 
-class ComicByCharacterIdUiStateMapper @Inject constructor(
+class MarvelListBasicToUiStateMapper @Inject constructor(
     private val marvelBasicUiStateMapper: MarvelBasicUiStateMapper,
 ) : Mapper<MarvelList<MarvelBasic>, MarvelListUiState<MarvelBasicUiState>>() {
     override fun map(input: MarvelList<MarvelBasic>): MarvelListUiState<MarvelBasicUiState> {

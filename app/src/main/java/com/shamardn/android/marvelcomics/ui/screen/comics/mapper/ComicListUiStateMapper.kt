@@ -2,12 +2,12 @@ package com.shamardn.android.marvelcomics.ui.screen.comics.mapper
 
 import com.shamardn.android.marvelcomics.domain.mapper.Mapper
 import com.shamardn.android.marvelcomics.domain.model.MarvelComic
-import com.shamardn.android.marvelcomics.ui.screen.characterDetails.mapper.ComicByCharacterIdUiStateMapper
+import com.shamardn.android.marvelcomics.ui.screen.characterDetails.mapper.MarvelListBasicToUiStateMapper
 import com.shamardn.android.marvelcomics.ui.screen.comics.uistate.ComicDetailsUiState
 import javax.inject.Inject
 
 class ComicsUiStateMapper @Inject constructor(
-    private val comicByCharacterIdUiStateMapper: ComicByCharacterIdUiStateMapper,
+    private val marvelListBasicToUiStateMapper: MarvelListBasicToUiStateMapper,
 ): Mapper<MarvelComic, ComicDetailsUiState>(){
     override fun map(input: MarvelComic): ComicDetailsUiState {
         return ComicDetailsUiState(
@@ -15,8 +15,8 @@ class ComicsUiStateMapper @Inject constructor(
             title = input.title,
             description = input.description,
             thumbnail = input.thumbnail,
-            characters = comicByCharacterIdUiStateMapper.map(input.characters),
-//            series = comicByCharacterIdUiStateMapper.map(input.series),
+            characters = marvelListBasicToUiStateMapper.map(input.characters),
+            series = marvelListBasicToUiStateMapper.map(input.series),
         )
     }
 }

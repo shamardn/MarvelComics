@@ -17,16 +17,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shamardn.android.marvelcomics.R
-import com.shamardn.android.marvelcomics.ui.screen.comics.uistate.ComicDetailsUiState
+import com.shamardn.android.marvelcomics.ui.screen.series.uistate.SeriesDetailsUiState
 import com.shamardn.android.marvelcomics.utils.formatDate
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MarvelComicDetails(
-    state: ComicDetailsUiState,
+fun MarvelSeriesDetails(
+    state: SeriesDetailsUiState,
     onBackClick: () -> Unit,
-    onClickCharacter: (Int) -> Unit,
-    onClickSeries: (Int) -> Unit,
+    onClickCharacters: (Int) -> Unit,
+    onClickComics: (Int) -> Unit,
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
@@ -81,8 +81,8 @@ fun MarvelComicDetails(
                         Text(text = "Characters", modifier = Modifier.padding(vertical = 16.dp))
                         Text(text = state.characters.available.toString())
                         Spacer(modifier = Modifier.width(16.dp))
-                        Text(text = "Series")
-                        Text(text = "3")
+                        Text(text = "Comics")
+                        Text(text = state.comics.available.toString())
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Stories")
                         Text(text = "19")
@@ -93,7 +93,7 @@ fun MarvelComicDetails(
             item {
                 val description: String = state.description
                 if(description == ""){
-                    HyperlinkText(fullText = stringResource(R.string.no_desc), fontSize = 14.sp , linkText = listOf( "official website"), hyperlinks = listOf("https://marvel.com/comics"))
+                    HyperlinkText(fullText = stringResource(R.string.no_desc), fontSize = 14.sp , linkText = listOf( "official website"), hyperlinks = listOf("https://marvel.com/characters"))
 
                 }else{
                     Text(
@@ -111,7 +111,7 @@ fun MarvelComicDetails(
             item {
                 Card(
                     modifier = Modifier
-                        .clickable { onClickCharacter(state.id) }
+                        .clickable { onClickCharacters(state.id) }
                         .fillMaxWidth()
                         .height(130.dp)
                         .border(width = 2.dp,
@@ -124,7 +124,7 @@ fun MarvelComicDetails(
                     Image(
                         painter = painterResource(id = R.drawable.comics),
                         contentScale = ContentScale.FillBounds,
-                        contentDescription = "Characters",
+                        contentDescription = "Comics",
                         modifier = Modifier
                             .fillMaxSize()
                     )
@@ -132,13 +132,13 @@ fun MarvelComicDetails(
             }
 
             stickyHeader {
-                HeaderTitle(title = stringResource(R.string.series))
+                HeaderTitle(title = stringResource(R.string.comics))
             }
 
             item {
                 Card(
                     modifier = Modifier
-                        .clickable { onClickSeries(state.id) }
+                        .clickable { onClickComics(state.id) }
                         .fillMaxWidth()
                         .height(130.dp)
                         .border(width = 2.dp,

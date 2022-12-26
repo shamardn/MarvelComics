@@ -9,5 +9,5 @@ data class MarvelComic(
     val modifiedDate: Date,
     val thumbnail: Thumbnail,
     val characters: MarvelList<MarvelBasic>,
-//    val series: MarvelList<MarvelBasic>,
+    val series: MarvelList<MarvelBasic>,
 )

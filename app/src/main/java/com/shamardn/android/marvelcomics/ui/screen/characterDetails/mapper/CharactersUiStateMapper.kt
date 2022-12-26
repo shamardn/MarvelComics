@@ -6,7 +6,7 @@ import com.shamardn.android.marvelcomics.ui.screen.characterDetails.uistate.Char
 import javax.inject.Inject
 
 class CharactersUiStateMapper @Inject constructor(
-    private val comicByCharacterIdUiStateMapper: ComicByCharacterIdUiStateMapper,
+    private val marvelListBasicToUiStateMapper: MarvelListBasicToUiStateMapper,
 ): Mapper<MarvelCharacter, CharacterDetailsUiState>(){
     override fun map(input: MarvelCharacter): CharacterDetailsUiState {
         return CharacterDetailsUiState(
@@ -16,8 +16,8 @@ class CharactersUiStateMapper @Inject constructor(
             modifiedDate = input.modifiedDate,
             thumbnail = input.thumbnail,
             resourceURI = input.resourceURI,
-            comics = comicByCharacterIdUiStateMapper.map(input.comics),
-//            series = comicByCharacterIdUiStateMapper.map(input.series),
+            comics = marvelListBasicToUiStateMapper.map(input.comics),
+            series = marvelListBasicToUiStateMapper.map(input.series),
         )
     }
 }

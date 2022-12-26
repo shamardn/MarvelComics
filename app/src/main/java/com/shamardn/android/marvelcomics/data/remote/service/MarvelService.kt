@@ -3,20 +3,34 @@ package com.shamardn.android.marvelcomics.data.remote.service
 import com.shamardn.android.marvelcomics.data.remote.response.base.BaseResponse
 import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelCharacterDTO
 import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelComicDTO
+import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelSeriesDTO
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface MarvelService {
+    //region Character
     @GET("characters")
     suspend fun getMarvelCharacters(): BaseResponse<MarvelCharacterDTO>
-
-    @GET("comics")
-    suspend fun getMarvelComics(): BaseResponse<MarvelComicDTO>
 
     @GET("characters/{characterId}")
     suspend fun getCharacterId(
         @Path("characterId") characterId: Int,
     ): BaseResponse<MarvelCharacterDTO>
+
+    @GET("comics/{comicId}/characters")
+    suspend fun getCharactersByComicId(
+        @Path("comicId") comicId: Int,
+    ): BaseResponse<MarvelCharacterDTO>
+
+    @GET("series/{seriesId}/characters")
+    suspend fun getCharactersBySeriesId(
+        @Path("seriesId") seriesId: Int,
+    ): BaseResponse<MarvelCharacterDTO>
+    //endregion
+
+    //region Comic
+    @GET("comics")
+    suspend fun getMarvelComics(): BaseResponse<MarvelComicDTO>
 
     @GET("comics/{comicId}")
     suspend fun getComicId(
@@ -25,11 +39,34 @@ interface MarvelService {
 
     @GET("characters/{characterId}/comics")
     suspend fun getComicsByCharacterId(
-        @Path("characterId") characterId: Int
+        @Path("characterId") characterId: Int,
     ): BaseResponse<MarvelComicDTO>
 
-    @GET("comics/{comicId}/characters")
-    suspend fun getCharactersByComicId(
-        @Path("comicId") comicId: Int
-    ): BaseResponse<MarvelCharacterDTO>
+    @GET("series/{seriesId}/comics")
+    suspend fun getComicsBySeriesId(
+        @Path("seriesId") seriesId: Int,
+    ): BaseResponse<MarvelComicDTO>
+
+    //endregion
+
+    //region Series
+    @GET("series")
+    suspend fun getMarvelSeries(): BaseResponse<MarvelSeriesDTO>
+
+    @GET("series/{seriesId}")
+    suspend fun getSeriesId(
+        @Path("seriesId") seriesId: Int,
+    ): BaseResponse<MarvelSeriesDTO>
+
+    @GET("characters/{characterId}/series")
+    suspend fun getSeriesByCharacterId(
+        @Path("characterId") characterId: Int,
+    ): BaseResponse<MarvelSeriesDTO>
+
+    @GET("comics/{comicId}/series")
+    suspend fun getSeriesByComicId(
+        @Path("comicId") comicId: Int,
+    ): BaseResponse<MarvelSeriesDTO>
+
+    //endregion
 }

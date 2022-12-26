@@ -3,7 +3,7 @@ package com.shamardn.android.marvelcomics.data.remote.response.dto
 import com.google.gson.annotations.SerializedName
 import com.shamardn.android.marvelcomics.data.remote.response.common.MarvelBasicDTO
 import com.shamardn.android.marvelcomics.data.remote.response.common.MarvelResourceList
-import com.shamardn.android.marvelcomics.data.remote.response.common.MarvelUrl
+import com.shamardn.android.marvelcomics.data.remote.response.common.MarvelUrlDTO
 import com.shamardn.android.marvelcomics.data.remote.response.common.ThumbnailDTO
 
 data class MarvelCharacterDTO(
@@ -18,12 +18,12 @@ data class MarvelCharacterDTO(
     @SerializedName("thumbnail")
     val thumbnail: ThumbnailDTO?,
     @SerializedName("urls")
-    val urls: List<MarvelUrl>?,
+    val urls: List<MarvelUrlDTO>?,
     @SerializedName("resourceURI")
     val resourceURI: String?,
     @SerializedName("comics")
     val comics: MarvelResourceList<MarvelBasicDTO>?,
-//    @SerializedName("series")
-//    val series: MarvelResourceList<MarvelBasicDTO>?,
+    @SerializedName("series")
+    val series: MarvelResourceList<MarvelBasicDTO>?,
 
-)
+    )

@@ -13,6 +13,5 @@ data class CharacterDetailsUiState(
     val thumbnail: Thumbnail = Thumbnail("","jpg"),
     val resourceURI: String = "",
     val comics: MarvelListUiState<MarvelBasicUiState> = MarvelListUiState(available = 0, collectionURI = "", items = emptyList()),
-//    val series: MarvelListUiState<MarvelBasicUiState> = MarvelListUiState(available = 0, collectionURI = "", items = emptyList()),
-
+    val series: MarvelListUiState<MarvelBasicUiState> = MarvelListUiState(available = 0, collectionURI = "", items = emptyList()),
 )

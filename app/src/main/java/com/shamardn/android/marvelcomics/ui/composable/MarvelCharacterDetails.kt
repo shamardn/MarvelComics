@@ -26,7 +26,7 @@ fun MarvelCharacterDetails(
     state: CharacterDetailsUiState,
     onBackClick: () -> Unit,
     onClickComics: (Int) -> Unit,
-//    onClickSeries: (Int) -> Unit,
+    onClickSeries: (Int) -> Unit,
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
@@ -132,13 +132,13 @@ fun MarvelCharacterDetails(
             }
 
             stickyHeader {
-                HeaderTitle(title = stringResource(R.string.Series))
+                HeaderTitle(title = stringResource(R.string.series))
             }
 
             item {
                 Card(
                     modifier = Modifier
-//                        .clickable { onClickSeries(state.id) }
+                        .clickable { onClickSeries(state.id) }
                         .fillMaxWidth()
                         .height(130.dp)
                         .border(width = 2.dp,

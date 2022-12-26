@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelCharactersByComicIdUseCase
+import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelCharactersBySeriesIdUseCase
 import com.shamardn.android.marvelcomics.ui.screen.characterDetails.mapper.CharactersUiStateMapper
 import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
-    private val fetchMarvelCharacter: FetchMarvelCharactersByComicIdUseCase,
+    private val fetchMarvelCharacterByComicId: FetchMarvelCharactersByComicIdUseCase,
+    private val fetchMarvelCharacterByCSeriesId: FetchMarvelCharactersBySeriesIdUseCase,
     private val charactersUiStateMapper: CharactersUiStateMapper,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -24,16 +26,35 @@ class CharactersViewModel @Inject constructor(
     private val arg: String = checkNotNull(savedStateHandle["id"])
     val id = arg.toInt()
     init {
-        getCharacterByComicsId()
+        getCharactersByComicsId()
     }
 
-    private fun getCharacterByComicsId() {
+    private fun getCharactersByComicsId() {
         viewModelScope.launch {
             try {
-                val comics = fetchMarvelCharacter(id).map { charactersUiStateMapper.map(it) }
-                _state.update { it.copy(
-                    marvelCharacters = comics
-                )
+                val characters = fetchMarvelCharacterByComicId(id).map { charactersUiStateMapper.map(it) }
+                _state.update {
+                    it.copy(
+                        marvelCharacters = characters
+                    )
+                }
+            } catch (e: Throwable) {
+                _state.update {
+                    it.copy(
+                        isError = true,
+                    )
+                }
+            }
+        }
+    }
+    private fun getCharactersBySeriesId() {
+        viewModelScope.launch {
+            try {
+                val characters = fetchMarvelCharacterByCSeriesId(id).map { charactersUiStateMapper.map(it) }
+                _state.update {
+                    it.copy(
+                        marvelCharacters = characters
+                    )
                 }
             } catch (e: Throwable) {
                 _state.update {

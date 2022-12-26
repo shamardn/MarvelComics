@@ -2,7 +2,7 @@ package com.shamardn.android.marvelcomics.data.remote.response.common
 
 import com.google.gson.annotations.SerializedName
 
-data class MarvelUrl(
+data class MarvelUrlDTO(
     @SerializedName("type")
     val type: String?,
     @SerializedName("url")

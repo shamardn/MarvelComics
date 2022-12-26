@@ -6,7 +6,7 @@ import com.shamardn.android.marvelcomics.domain.model.MarvelBasic
 import com.shamardn.android.marvelcomics.domain.model.MarvelList
 import javax.inject.Inject
 
-class MarvelByComicIdMapper @Inject constructor(
+class BasicDTOMapper @Inject constructor(
     private val basicDTOToBasicMapper: BasicDTOToBasicMapper,
 ) : Mapper<MarvelResourceList<MarvelBasicDTO>, MarvelList<MarvelBasic>>() {
     override fun map(input: MarvelResourceList<MarvelBasicDTO>): MarvelList<MarvelBasic> {

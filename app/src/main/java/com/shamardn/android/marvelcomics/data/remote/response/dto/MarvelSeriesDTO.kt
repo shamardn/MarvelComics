@@ -6,7 +6,7 @@ import com.shamardn.android.marvelcomics.data.remote.response.common.MarvelResou
 import com.shamardn.android.marvelcomics.data.remote.response.common.MarvelUrlDTO
 import com.shamardn.android.marvelcomics.data.remote.response.common.ThumbnailDTO
 
-data class MarvelComicDTO(
+data class MarvelSeriesDTO(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("title")
@@ -19,10 +19,8 @@ data class MarvelComicDTO(
     val thumbnail: ThumbnailDTO?,
     @SerializedName("urls")
     val urls: List<MarvelUrlDTO>?,
-    @SerializedName("pageCount")
-    val pageCount: Int?,
     @SerializedName("characters")
     val characters: MarvelResourceList<MarvelBasicDTO>?,
-    @SerializedName("series")
-    val series: MarvelResourceList<MarvelBasicDTO>?,
+    @SerializedName("comics")
+    val comics: MarvelResourceList<MarvelBasicDTO>?,
 )
