@@ -7,6 +7,7 @@ import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelCharactersByC
 import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelCharactersBySeriesIdUseCase
 import com.shamardn.android.marvelcomics.ui.screen.characterDetails.mapper.CharactersUiStateMapper
 import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersUiState
+import com.shamardn.android.marvelcomics.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -24,9 +25,15 @@ class CharactersViewModel @Inject constructor(
     private val _state = MutableStateFlow(CharactersUiState())
     val state = _state.asStateFlow()
     private val arg: String = checkNotNull(savedStateHandle["id"])
+    private val argIdType: String = checkNotNull(savedStateHandle["idType"])
     val id = arg.toInt()
+    val idType = argIdType.toInt()
     init {
-        getCharactersByComicsId()
+        if (idType == Constants.COMIC_TYPE){
+            getCharactersByComicsId()
+        }else{
+            getCharactersBySeriesId()
+        }
     }
 
     private fun getCharactersByComicsId() {

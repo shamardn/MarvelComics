@@ -20,8 +20,11 @@ fun MarvelNavGraph(navController: NavHostController) {
 
         composable(Screen.Home.route) { HomeScreen(navController) }
 
-        composable("${Screen.Characters.route}/{id}",
-            arguments = listOf(navArgument(name = "id") { NavType.IntType}, ))
+        composable("${Screen.Characters.route}/{id}/{idType}",
+            arguments = listOf(
+                navArgument(name = "id") { NavType.IntType},
+                navArgument(name = "idType") { NavType.IntType},
+            ))
         { CharactersScreen(navController) }
 
         composable("${Screen.CharacterDetails.route}/{id}",
