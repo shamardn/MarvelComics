@@ -4,6 +4,6 @@
     <path android:fillAlpha="0.4" android:fillColor="#D1D0D0" android:pathData="M20,0L20,0A20,20 0,0 1,40 20L40,20A20,20 0,0 1,20 40L20,40A20,20 0,0 1,0 20L0,20A20,20 0,0 1,20 0z"/>
     <group>
         <clip-path android:pathData="M8,8h24v24h-24z"/>
-        <path android:fillColor="#ffffff" android:pathData="M20,28L12,20L20,12L21.425,13.4L15.825,19H28V21H15.825L21.425,26.6L20,28Z"/>
+        <path android:fillColor="#ffffff" android:pathData="M13,29V13C13,12.45 13.196,11.979 13.588,11.587C13.979,11.196 14.45,11 15,11H21V13H15V25.95L20,23.8L25,25.95V19H27V29L20,26L13,29ZM25,17V15H23V13H25V11H27V13H29V15H27V17H25Z"/>
     </group>
 </vector>

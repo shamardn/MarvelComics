@@ -34,6 +34,7 @@ fun CharacterContent(
     MarvelCharacterDetails(
         state = state,
         onBackClick = onBackClick,
+        onSaveClick = {},
         onClickComics = onClickComics,
         onClickSeries = onClickSeries,
     )

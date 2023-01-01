@@ -1,17 +1,19 @@
 package com.shamardn.android.marvelcomics.ui.composable
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -26,6 +28,7 @@ import com.shamardn.android.marvelcomics.utils.formatDate
 fun MarvelCharacterDetails(
     state: CharacterDetailsUiState,
     onBackClick: () -> Unit,
+    onSaveClick: () -> Unit,
     onClickComics: (Int, Int) -> Unit,
     onClickSeries: (Int, Int) -> Unit,
 ) {
@@ -35,157 +38,153 @@ fun MarvelCharacterDetails(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
+        val img = "${state.thumbnail.path}.${state.thumbnail.extension}"
         Box(modifier = Modifier
             .fillMaxWidth()
-            .height(210.dp)) {
+            .height(251.dp)) {
 
-            val img = "${state.thumbnail.path}.${state.thumbnail.extension}"
-            ComplexImage(img = img, height = 210)
+            ComplexImage(img = img, height = 251)
 
             BackIcon(
                 modifier = Modifier.align(Alignment.TopStart), onBackClick,
             )
+
+            SaveIcon(
+                modifier = Modifier.align(Alignment.TopEnd), onSaveClick,
+            )
         }
 
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = Modifier
                 .padding(horizontal = 16.dp),
         ) {
 
             stickyHeader {
-               HeaderTitle(title = state.name)
-            }
-
-            item {
-                Text(
-                    text = formatDate(state.modifiedDate) ,
-                    color = MaterialTheme.colors.onBackground, style = MaterialTheme.typography.caption,
-                    modifier = Modifier,
+                HeaderTitle(
+                    title = state.name,
+                    modifier = Modifier
+                        .padding(top = 16.dp),
                 )
             }
 
             item {
-                Card(
-                    contentColor = Color.Red,
-                    elevation = 0.dp,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .border(width = 2.dp, color = Color.Red, shape = RoundedCornerShape(16.dp))
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_calendar),
+                        contentDescription = "Modified year",
+                    )
 
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceEvenly,
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier
-                    ) {
-                        Text(text = "Comics", modifier = Modifier.padding(vertical = 16.dp))
-                        Text(text = state.comics.available.toString())
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(text = "Series")
-                        Text(text = "3")
-                        Spacer(modifier = Modifier.width(16.dp))
-                        Text(text = "Stories")
-                        Text(text = "19")
-                    }
-                }
-            }
-
-            item {
-                val description: String = state.description
-                if(description == ""){
-                    HyperlinkText(fullText = stringResource(R.string.no_desc), fontSize = 14.sp , linkText = listOf( "official website"), hyperlinks = listOf("https://marvel.com/characters"))
-
-                }else{
                     Text(
-                        text = description,
+                        text = formatDate(state.modifiedDate),
                         color = MaterialTheme.colors.onBackground,
-                        style = MaterialTheme.typography.subtitle2,
+                        style = MaterialTheme.typography.caption,
                         modifier = Modifier,
                     )
                 }
             }
-            stickyHeader {
-               HeaderTitle(title = stringResource(id = R.string.comics))
-            }
 
             item {
-                Card(
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .clickable { onClickComics(state.id, Constants.CHARACTER_TYPE) }
                         .fillMaxWidth()
-                        .height(130.dp)
-                        .border(width = 2.dp,
-                            color = Color.Yellow,
-                            shape = RoundedCornerShape(16.dp)),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = 0.dp,
-                    backgroundColor = Color.LightGray,
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.comics),
-                        contentScale = ContentScale.FillBounds,
-                        contentDescription = "Comics",
+                    Card(
+                        elevation = 0.dp,
                         modifier = Modifier
-                            .fillMaxSize()
-                    )
+                            .padding(top = 16.dp)
+                            .clip(shape = CutCornerShape(topStart = 12.dp, bottomEnd = 12.dp))
+                    ) {
+                        Text(
+                            text = "Comics : ${state.comics.available}",
+                            color = Color.White,
+                            modifier = Modifier
+                                .background(color = Color.Red)
+                                .padding(8.dp)
+                        )
+                    }
+
+                    Card(
+                        elevation = 0.dp,
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                            .clip(shape = CutCornerShape(topStart = 12.dp, bottomEnd = 12.dp))
+                    ) {
+                        Text(
+                            text = "Series : ${state.series.available}",
+                            color = Color.White,
+                            modifier = Modifier
+                                .background(color = Color.Red)
+                                .padding(8.dp)
+                        )
+                    }
+
+                    Card(
+                        elevation = 0.dp,
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                            .clip(shape = CutCornerShape(topStart = 12.dp, bottomEnd = 12.dp))
+                    ) {
+                        Text(
+                            text = "Stories : ${state.comics.available}",
+                            color = Color.White,
+                            modifier = Modifier
+                                .background(color = Color.Red)
+                                .padding(8.dp)
+                        )
+                    }
                 }
             }
 
             stickyHeader {
-                HeaderTitle(title = stringResource(R.string.series))
+                SubTitle(
+                    title = stringResource(id = R.string.desc),
+                    modifier = Modifier
+                        .padding(top = 16.dp),
+                )
             }
 
             item {
-                Card(
-                    modifier = Modifier
-                        .clickable { onClickSeries(state.id, Constants.CHARACTER_TYPE) }
-                        .fillMaxWidth()
-                        .height(130.dp)
-                        .border(width = 2.dp,
-                            color = Color.Yellow,
-                            shape = RoundedCornerShape(16.dp)),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = 0.dp,
-                    backgroundColor = Color.LightGray
+                val description: String = state.description
+                if (description == "") {
+                    HyperlinkText(fullText = stringResource(R.string.no_desc),
+                        fontSize = 14.sp,
+                        linkText = listOf("official website"),
+                        hyperlinks = listOf("https://marvel.com/characters"))
 
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.series),
-                        contentScale = ContentScale.FillBounds,
-                        contentDescription = "series",
-                        modifier = Modifier
-                            .fillMaxSize()
+                } else {
+                    Text(
+                        text = description,
+                        color = MaterialTheme.colors.onBackground,
+                        style = MaterialTheme.typography.subtitle1,
+                        modifier = Modifier,
                     )
                 }
             }
-
-            stickyHeader {
-                HeaderTitle(title = stringResource(R.string.stories))
-            }
-
             item {
-                Card(
-                    modifier = Modifier
-                        .padding(bottom = 16.dp)
-                        .fillMaxWidth()
-                        .height(130.dp)
-                        .border(width = 2.dp,
-                            color = Color.Yellow,
-                            shape = RoundedCornerShape(16.dp)),
-                    shape = RoundedCornerShape(16.dp),
-                    elevation = 0.dp,
-                    backgroundColor = Color.LightGray
-                ) {
-
-                    Image(
-                        painter = painterResource(id = R.drawable.stories),
-                        contentScale = ContentScale.FillBounds,
-                        contentDescription = "stories",
-                        modifier = Modifier
-                            .fillMaxSize()
-                    )
-                }
+                ComicsCard(
+                    title = stringResource(id = R.string.comics),
+                    image = painterResource(id = R.drawable.comics),
+                    onClick = { onClickComics(state.id, Constants.CHARACTER_TYPE) },
+                )
+            }
+            item {
+                ComicsCard(
+                    title = stringResource(id = R.string.series),
+                    image = painterResource(id = R.drawable.series),
+                    onClick = { onClickSeries(state.id, Constants.SERIES_TYPE) },
+                )
+            }
+            item {
+                ComicsCard(
+                    title = stringResource(id = R.string.stories),
+                    image = painterResource(id = R.drawable.stories),
+                    onClick = { onClickSeries(state.id, Constants.STORIES_TYPE) },
+                )
             }
         }
     }

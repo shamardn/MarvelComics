@@ -13,4 +13,5 @@
     <string name="stories">Stories</string>
     <string name="characters">Characters</string>
     <string name="no_desc">No description available right now. You can check the official website.</string>
+    <string name="save_icon">Save Icon</string>
 </resources>
