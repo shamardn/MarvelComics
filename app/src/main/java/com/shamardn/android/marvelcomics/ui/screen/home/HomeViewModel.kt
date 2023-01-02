@@ -1,6 +1,5 @@
 package com.shamardn.android.marvelcomics.ui.screen.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelCharactersUseCase
@@ -29,11 +28,12 @@ class HomeViewModel @Inject constructor(
     private val comicsUiStateMapper: ComicsUiStateMapper,
     private val seriesUiStateMapper: SeriesUiStateMapper,
     private val storiesUiStateMapper: StoriesUiStateMapper,
-): ViewModel() {
+) : ViewModel() {
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
 
     init {
+        _state.update { it.copy(isLoading = true) }
         getCharacters()
         getComics()
         getSeries()
@@ -44,14 +44,18 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val stories = getStoriesUseCase().map { storiesUiStateMapper.map(it) }
-                _state.update { it.copy(
-                    marvelStories = stories
-                )
+                _state.update {
+                    it.copy(
+                        marvelStories = stories,
+                        isError = false,
+                        isLoading = false,
+                    )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false,
                     )
                 }
             }
@@ -62,54 +66,75 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val series = getSeriesUseCase().map { seriesUiStateMapper.map(it) }
-                Log.i("wshamardn", "series = $series ")
-                _state.update { it.copy(
-                    marvelSeries = series
-                )
+                _state.update {
+                    it.copy(
+                        marvelSeries = series,
+                        isError = false,
+                    )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false,
                     )
                 }
             }
         }
     }
 
-    private fun getCharacters(){
+    private fun getCharacters() {
         viewModelScope.launch {
             try {
-                val characters = fetchMarvelCharactersUseCase().map { charactersUiStateMapper.map(it) }
-                Log.i("wshamardn", "characters = $characters ")
-                _state.update { it.copy(
-                    marvelCharacters = characters
-                )
+                val characters =
+                    fetchMarvelCharactersUseCase().map { charactersUiStateMapper.map(it) }
+                _state.update {
+                    it.copy(
+                        marvelCharacters = characters,
+                        isError = false,
+                    )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false,
                     )
                 }
             }
         }
     }
-    private fun getComics(){
+
+    private fun getComics() {
         viewModelScope.launch {
             try {
                 val comics = getComicsUseCase().map { comicsUiStateMapper.map(it) }
-                _state.update { it.copy(
-                    marvelComics = comics
-                )
+                _state.update {
+                    it.copy(
+                        marvelComics = comics,
+                        isError = false,
+                    )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false,
                     )
                 }
             }
         }
+    }
+
+    fun onClickTryAgain(){
+        _state.update {
+            it.copy(
+                isLoading = true,
+                isError = false,
+            ) }
+        getCharacters()
+        getComics()
+        getSeries()
+        getStories()
     }
 }

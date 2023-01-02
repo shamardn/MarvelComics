@@ -29,10 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.shamardn.android.marvelcomics.R
 import com.shamardn.android.marvelcomics.Screen
-import com.shamardn.android.marvelcomics.ui.composable.ItemCharacter
-import com.shamardn.android.marvelcomics.ui.composable.ItemComic
-import com.shamardn.android.marvelcomics.ui.composable.ItemSeries
-import com.shamardn.android.marvelcomics.ui.composable.ItemStory
+import com.shamardn.android.marvelcomics.ui.composable.*
 import com.shamardn.android.marvelcomics.ui.screen.home.uistate.HomeUiState
 
 @Composable
@@ -53,7 +50,10 @@ fun HomeScreen(
         },
         onClickStory = { id ->
             navController.navigate(route = "${Screen.StoryDetails.route}/$id")
-        }
+        },
+        onClickTryAgain = viewModel::onClickTryAgain,
+
+
     )
 }
 
@@ -65,7 +65,9 @@ private fun HomeContent(
     onClickComic: (Int) -> Unit,
     onClickSeries: (Int) -> Unit,
     onClickStory: (Int) -> Unit,
+    onClickTryAgain: () -> Unit = {},
 ) {
+
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
         TopAppBar(title = {
@@ -80,108 +82,117 @@ private fun HomeContent(
             }
         }, scrollBehavior = scrollBehavior)
     }, content = { innerPadding ->
-        LazyColumn(verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.Start,
-            contentPadding = PaddingValues(vertical = 16.dp),
-            modifier = Modifier.padding(innerPadding)
-        ) {
 
-            stickyHeader {
-                Text(text = stringResource(R.string.characters),
-                    color = Color.Red,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .fillMaxWidth()
-                        .background(color = Color.White))
+        if (state.isLoading) {
+            LoadingView()
 
-            }
-            item {
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp)) {
-                    items(
-                        items = state.marvelCharacters,
-                    ) {
-                        ItemCharacter(state = it,
-                            onClickCharacter = { onClickCharacter(it.id) }
-                        )
+        } else if (state.isError ) {
+            ErrorView(onClickTryAgain)
+        } else {
+            LazyColumn(verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start,
+                contentPadding = PaddingValues(vertical = 16.dp),
+                modifier = Modifier.padding(innerPadding)
+            ) {
+
+                stickyHeader {
+                    Text(text = stringResource(R.string.characters),
+                        color = Color.Red,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .fillMaxWidth()
+                            .background(color = Color.White))
+
+                }
+                item {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp)) {
+                        items(
+                            items = state.marvelCharacters,
+                        ) {
+                            ItemCharacter(state = it,
+                                onClickCharacter = { onClickCharacter(it.id) }
+                            )
+                        }
                     }
                 }
-            }
 
-            stickyHeader {
-                Text(text = stringResource(R.string.comics),
-                    color = Color.Red,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier
-                        .padding(start = 16.dp, top = 16.dp)
-                        .fillMaxWidth()
-                        .background(color = Color.White))
+                stickyHeader {
+                    Text(text = stringResource(R.string.comics),
+                        color = Color.Red,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier
+                            .padding(start = 16.dp, top = 16.dp)
+                            .fillMaxWidth()
+                            .background(color = Color.White))
 
-            }
-            item {
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp)) {
-                    items(
-                        items = state.marvelComics,
-                ) {
-                        ItemComic(state = it,
-                            onClickComic = { onClickComic(it.id) }
-                        )
+                }
+                item {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp)) {
+                        items(
+                            items = state.marvelComics,
+                        ) {
+                            ItemComic(state = it,
+                                onClickComic = { onClickComic(it.id) }
+                            )
+                        }
                     }
                 }
-            }
 
-            stickyHeader {
-                Text(text = stringResource(R.string.series),
-                    color = Color.Red,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier
-                        .padding(start = 16.dp, top = 16.dp)
-                        .fillMaxWidth()
-                        .background(color = Color.White))
+                stickyHeader {
+                    Text(text = stringResource(R.string.series),
+                        color = Color.Red,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier
+                            .padding(start = 16.dp, top = 16.dp)
+                            .fillMaxWidth()
+                            .background(color = Color.White))
 
-            }
-            item {
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp)) {
-                    items(
-                        items = state.marvelSeries,
-                    ) {
-                        ItemSeries(state = it,
-                            onClickSeries = { onClickSeries(it.id) }
-                        )
+                }
+                item {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp)) {
+                        items(
+                            items = state.marvelSeries,
+                        ) {
+                            ItemSeries(state = it,
+                                onClickSeries = { onClickSeries(it.id) }
+                            )
+                        }
                     }
                 }
-            }
 
-            stickyHeader {
-                Text(text = stringResource(R.string.stories),
-                    color = Color.Red,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier
-                        .padding(start = 16.dp, top = 16.dp)
-                        .fillMaxWidth()
-                        .background(color = Color.White))
+                stickyHeader {
+                    Text(text = stringResource(R.string.stories),
+                        color = Color.Red,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier
+                            .padding(start = 16.dp, top = 16.dp)
+                            .fillMaxWidth()
+                            .background(color = Color.White))
 
-            }
-            item {
-                LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(horizontal = 16.dp)) {
-                    items(
-                        items = state.marvelStories,
-                    ) {
-                        ItemStory(state = it,
-                            onClickStory = { onClickStory(it.id) }
-                        )
+                }
+                item {
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp)) {
+                        items(
+                            items = state.marvelStories,
+                        ) {
+                            ItemStory(state = it,
+                                onClickStory = { onClickStory(it.id) }
+                            )
+                        }
                     }
                 }
-            }
 
+            }
         }
+
     })
 }
