@@ -38,9 +38,11 @@ class ComicDetailsViewModel @Inject constructor(
                         id = currentComic.id,
                         title = currentComic.title,
                         description = currentComic.description,
+                        modified = currentComic.modified,
                         thumbnail = currentComic.thumbnail,
                         characters = currentComic.characters,
-//                        series = currentCharacter.series,
+                        series = currentComic.series,
+                        stories = currentComic.stories,
                     )
                 }
 

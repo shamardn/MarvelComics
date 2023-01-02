@@ -4,6 +4,7 @@ import com.shamardn.android.marvelcomics.data.remote.response.base.BaseResponse
 import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelCharacterDTO
 import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelComicDTO
 import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelSeriesDTO
+import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelStoryDTO
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -67,6 +68,34 @@ interface MarvelService {
     suspend fun getSeriesByComicId(
         @Path("comicId") comicId: Int,
     ): BaseResponse<MarvelSeriesDTO>
+
+    //endregion
+
+    //region Stories
+
+    @GET("stories")
+    suspend fun getMarvelStories(): BaseResponse<MarvelStoryDTO>
+
+    @GET("characters/{characterId}/stories")
+    suspend fun getStoriesByCharacterId(
+        @Path("characterId") characterId: Int,
+    ): BaseResponse<MarvelStoryDTO>
+
+    @GET("series/{seriesId}/stories")
+    suspend fun getStoriesBySeriesId(
+        @Path("seriesId") seriesId: Int,
+    ): BaseResponse<MarvelStoryDTO>
+
+
+    @GET("comics/{comicId}/stories")
+    suspend fun getStoriesByComicId(
+        @Path("comicId") comicId: Int,
+    ): BaseResponse<MarvelStoryDTO>
+
+    @GET("stories/{storyId}")
+    suspend fun getStoryDetailsById(
+        @Path("storyId") storyId: Int,
+    ): BaseResponse<MarvelStoryDTO>
 
     //endregion
 }

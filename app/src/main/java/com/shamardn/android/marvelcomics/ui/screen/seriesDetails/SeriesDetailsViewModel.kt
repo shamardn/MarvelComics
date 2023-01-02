@@ -38,9 +38,11 @@ class SeriesDetailsViewModel @Inject constructor(
                         id = currentSeries.id,
                         title = currentSeries.title,
                         description = currentSeries.description,
+                        modified = currentSeries.modified,
                         thumbnail = currentSeries.thumbnail,
                         characters = currentSeries.characters,
                         comics = currentSeries.comics,
+                        stories = currentSeries.stories,
                     )
                 }
             } catch (e: Exception) {

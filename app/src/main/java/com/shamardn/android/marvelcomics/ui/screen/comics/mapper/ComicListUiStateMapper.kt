@@ -14,9 +14,11 @@ class ComicsUiStateMapper @Inject constructor(
             id = input.id,
             title = input.title,
             description = input.description,
+            modified = input.modifiedDate,
             thumbnail = input.thumbnail,
             characters = marvelListBasicToUiStateMapper.map(input.characters),
             series = marvelListBasicToUiStateMapper.map(input.series),
+            stories = marvelListBasicToUiStateMapper.map(input.stories),
         )
     }
 }

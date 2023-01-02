@@ -11,13 +11,14 @@ class CharactersUiStateMapper @Inject constructor(
     override fun map(input: MarvelCharacter): CharacterDetailsUiState {
         return CharacterDetailsUiState(
             id = input.id,
-            name = input.name,
+            title = input.title,
             description = input.description,
             modifiedDate = input.modifiedDate,
             thumbnail = input.thumbnail,
             resourceURI = input.resourceURI,
             comics = marvelListBasicToUiStateMapper.map(input.comics),
             series = marvelListBasicToUiStateMapper.map(input.series),
+            stories = marvelListBasicToUiStateMapper.map(input.stories),
         )
     }
 }

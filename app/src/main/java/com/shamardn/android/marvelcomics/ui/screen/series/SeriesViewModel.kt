@@ -37,8 +37,8 @@ class SeriesViewModel @Inject constructor(
             Constants.CHARACTER_TYPE -> {
                 getSeriesByCharacterId()
             }
-            Constants.COMIC_TYPE -> {
-                getSeriesByComicId()
+            Constants.STORY_TYPE -> {
+                getSeriesByStoryId()
             }
             else -> {
 
@@ -64,7 +64,7 @@ class SeriesViewModel @Inject constructor(
         }
     }
 
-    private fun getSeriesByComicId() {
+    private fun getSeriesByStoryId() {
         viewModelScope.launch {
             try {
                 val series = fetchMarvelSeriesByComicId(id).map { SeriesUiStateMapper.map(it) }

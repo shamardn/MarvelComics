@@ -18,13 +18,14 @@ class CharactersMapper @Inject constructor(
         return result.map {
             MarvelCharacter(
                 id = it.id ?: 0,
-                name = it.name ?: "",
+                title = it.title ?: "",
                 description = it.description ?: "",
                 modifiedDate = convertStringToDate(it.modified),
                 thumbnail = thumbnailMapper.map(it.thumbnail!!),
                 resourceURI = it.resourceURI ?: "",
                 comics = marvelByCharacterIdMapper.map(it.comics!!),
-                series = marvelByCharacterIdMapper.map(it.comics),
+                series = marvelByCharacterIdMapper.map(it.series!!),
+                stories = marvelByCharacterIdMapper.map(it.stories!!),
             )
         }
     }

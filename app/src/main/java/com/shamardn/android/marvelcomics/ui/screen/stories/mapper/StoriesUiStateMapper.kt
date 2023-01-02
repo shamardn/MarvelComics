@@ -1,24 +1,23 @@
-package com.shamardn.android.marvelcomics.ui.screen.comicDetails.mapper
+package com.shamardn.android.marvelcomics.ui.screen.stories.mapper
 
 import com.shamardn.android.marvelcomics.domain.mapper.Mapper
-import com.shamardn.android.marvelcomics.domain.model.MarvelComic
+import com.shamardn.android.marvelcomics.domain.model.MarvelStory
 import com.shamardn.android.marvelcomics.ui.screen.characterDetails.mapper.MarvelListBasicToUiStateMapper
-import com.shamardn.android.marvelcomics.ui.screen.comics.uistate.ComicDetailsUiState
+import com.shamardn.android.marvelcomics.ui.screen.stories.uistate.StoryDetailsUiState
 import javax.inject.Inject
 
-class ComicsUiStateMapper @Inject constructor(
+class StoriesUiStateMapper @Inject constructor(
     private val marvelListBasicToUiStateMapper: MarvelListBasicToUiStateMapper,
-): Mapper<MarvelComic, ComicDetailsUiState>(){
-    override fun map(input: MarvelComic): ComicDetailsUiState {
-        return ComicDetailsUiState(
+): Mapper<MarvelStory, StoryDetailsUiState>(){
+    override fun map(input: MarvelStory): StoryDetailsUiState {
+        return StoryDetailsUiState(
             id = input.id,
             title = input.title,
             description = input.description,
             modified = input.modifiedDate,
-            thumbnail = input.thumbnail,
             characters = marvelListBasicToUiStateMapper.map(input.characters),
             series = marvelListBasicToUiStateMapper.map(input.series),
-            stories = marvelListBasicToUiStateMapper.map(input.stories),
+            comics = marvelListBasicToUiStateMapper.map(input.comics),
         )
     }
 }

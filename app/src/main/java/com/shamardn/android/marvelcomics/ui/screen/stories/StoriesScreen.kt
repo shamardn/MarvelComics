@@ -1,4 +1,4 @@
-package com.shamardn.android.marvelcomics.ui.screen.characters
+package com.shamardn.android.marvelcomics.ui.screen.stories
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,29 +21,30 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.shamardn.android.marvelcomics.R
 import com.shamardn.android.marvelcomics.Screen
-import com.shamardn.android.marvelcomics.ui.composable.ItemCharacter
-import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersUiState
+import com.shamardn.android.marvelcomics.ui.composable.ItemStory
+import com.shamardn.android.marvelcomics.ui.screen.stories.uistate.StoriesUiState
 
 @Composable
-fun CharactersScreen(
+fun StoriesScreen(
     navController: NavHostController,
-    viewModel: CharactersViewModel = hiltViewModel(),
+    viewModel: StoriesViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    CharactersContent(state = state,
+    StoriesContent(
+        state = state,
         onBackClick = { navController.navigateUp() },
-        onClickCharacter = { id ->
-            navController.navigate(route = "${Screen.CharacterDetails.route}/$id")
+        onClickStory = { id ->
+            navController.navigate(route = "${Screen.StoryDetails.route}/$id")
         }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CharactersContent(
-    state: CharactersUiState,
+private fun StoriesContent(
+    state: StoriesUiState,
     onBackClick: () -> Unit,
-    onClickCharacter: (Int) -> Unit,
+    onClickStory: (Int) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
@@ -52,7 +53,7 @@ private fun CharactersContent(
             TopAppBar(
                 title = {
                     Text(
-                       text = stringResource(R.string.characters),
+                       text = stringResource(R.string.stories),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -77,14 +78,11 @@ private fun CharactersContent(
                 modifier = Modifier.padding(innerPadding)
             ){
                 items(
-                    items = state.marvelCharacters,
-                    key = { currentCharacters ->
-                        currentCharacters.title
-                    }
+                    items = state.marvelStories,
                 ) {
-                    ItemCharacter(
+                    ItemStory(
                         state = it,
-                        onClickCharacter = { onClickCharacter(it.id) },
+                        onClickStory = { onClickStory(it.id)},
                     )
                 }
             }

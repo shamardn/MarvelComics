@@ -23,4 +23,6 @@ data class MarvelSeriesDTO(
     val characters: MarvelResourceList<MarvelBasicDTO>?,
     @SerializedName("comics")
     val comics: MarvelResourceList<MarvelBasicDTO>?,
+    @SerializedName("stories")
+    val stories: MarvelResourceList<MarvelBasicDTO>?,
 )

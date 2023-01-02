@@ -13,4 +13,5 @@ data class SeriesDetailsUiState(
     val thumbnail: Thumbnail = Thumbnail("",""),
     val characters: MarvelListUiState<MarvelBasicUiState> = MarvelListUiState(available = 0, collectionURI = "", items = emptyList()),
     val comics: MarvelListUiState<MarvelBasicUiState> = MarvelListUiState(available = 0, collectionURI = "", items = emptyList()),
+    val stories: MarvelListUiState<MarvelBasicUiState> = MarvelListUiState(available = 0, collectionURI = "", items = emptyList()),
 )

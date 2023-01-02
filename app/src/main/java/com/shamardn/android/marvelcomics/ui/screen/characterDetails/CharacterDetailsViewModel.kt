@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CharacterViewModel @Inject constructor(
+class CharacterDetailsViewModel @Inject constructor(
     val getCharacterDetails: FetchMarvelCharacterIdUseCase,
     val charactersUiStateMapper: CharactersUiStateMapper,
     savedStateHandle: SavedStateHandle,
@@ -36,13 +36,14 @@ class CharacterViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         id = currentCharacter.id,
-                        name = currentCharacter.name,
+                        title = currentCharacter.title,
                         description = currentCharacter.description,
                         modifiedDate = currentCharacter.modifiedDate,
                         thumbnail = currentCharacter.thumbnail,
                         resourceURI = currentCharacter.resourceURI,
                         comics = currentCharacter.comics,
-//                        series = currentCharacter.series,
+                        series = currentCharacter.series,
+                        stories = currentCharacter.stories,
                     )
                 }
             } catch (e: Exception) {

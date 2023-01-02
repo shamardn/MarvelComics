@@ -10,7 +10,7 @@ data class MarvelCharacterDTO(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("name")
-    val name: String?,
+    val title: String?,
     @SerializedName("description")
     val description: String?,
     @SerializedName("modified")
@@ -25,5 +25,6 @@ data class MarvelCharacterDTO(
     val comics: MarvelResourceList<MarvelBasicDTO>?,
     @SerializedName("series")
     val series: MarvelResourceList<MarvelBasicDTO>?,
-
+    @SerializedName("stories")
+    val stories: MarvelResourceList<MarvelBasicDTO>?,
     )

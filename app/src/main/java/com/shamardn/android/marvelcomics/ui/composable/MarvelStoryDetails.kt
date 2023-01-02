@@ -19,19 +19,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.shamardn.android.marvelcomics.R
-import com.shamardn.android.marvelcomics.ui.screen.characterDetails.uistate.CharacterDetailsUiState
+import com.shamardn.android.marvelcomics.ui.screen.stories.uistate.StoryDetailsUiState
 import com.shamardn.android.marvelcomics.utils.Constants
 import com.shamardn.android.marvelcomics.utils.formatDate
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun MarvelCharacterDetails(
-    state: CharacterDetailsUiState,
+fun MarvelStoryDetails(
+    state: StoryDetailsUiState,
     onBackClick: () -> Unit,
     onSaveClick: () -> Unit,
     onClickComics: (Int, Int) -> Unit,
     onClickSeries: (Int, Int) -> Unit,
-    onClickStories: (Int, Int) -> Unit,
+    onClickCharacters: (Int, Int) -> Unit,
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
@@ -39,7 +39,10 @@ fun MarvelCharacterDetails(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
-        val img = "${state.thumbnail.path}.${state.thumbnail.extension}"
+
+        val path = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available"
+        val extension = "jpg"
+        val img = "$path.$extension"
         Box(modifier = Modifier
             .fillMaxWidth()
             .height(251.dp)) {
@@ -79,7 +82,7 @@ fun MarvelCharacterDetails(
                     )
 
                     Text(
-                        text = formatDate(state.modifiedDate),
+                        text = formatDate(state.modified),
                         color = MaterialTheme.colors.onBackground,
                         style = MaterialTheme.typography.caption,
                         modifier = Modifier,
@@ -131,7 +134,7 @@ fun MarvelCharacterDetails(
                             .clip(shape = CutCornerShape(topStart = 12.dp, bottomEnd = 12.dp))
                     ) {
                         Text(
-                            text = "Stories : ${state.stories.available}",
+                            text = "Characters : ${state.characters.available}",
                             color = Color.White,
                             modifier = Modifier
                                 .background(color = Color.Red)
@@ -170,21 +173,21 @@ fun MarvelCharacterDetails(
                 ComicsCard(
                     title = stringResource(id = R.string.comics),
                     image = painterResource(id = R.drawable.comics),
-                    onClick = { onClickComics(state.id, Constants.CHARACTER_TYPE) },
+                    onClick = { onClickComics(state.id, Constants.STORY_TYPE) },
                 )
             }
             item {
                 ComicsCard(
                     title = stringResource(id = R.string.series),
                     image = painterResource(id = R.drawable.series),
-                    onClick = { onClickSeries(state.id, Constants.CHARACTER_TYPE) },
+                    onClick = { onClickSeries(state.id, Constants.STORY_TYPE) },
                 )
             }
             item {
                 ComicsCard(
-                    title = stringResource(id = R.string.stories),
+                    title = stringResource(id = R.string.characters),
                     image = painterResource(id = R.drawable.stories),
-                    onClick = { onClickStories(state.id, Constants.CHARACTER_TYPE) },
+                    onClick = { onClickCharacters(state.id, Constants.STORY_TYPE) },
                 )
             }
         }

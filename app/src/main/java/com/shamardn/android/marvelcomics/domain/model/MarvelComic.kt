@@ -10,4 +10,5 @@ data class MarvelComic(
     val thumbnail: Thumbnail,
     val characters: MarvelList<MarvelBasic>,
     val series: MarvelList<MarvelBasic>,
+    val stories: MarvelList<MarvelBasic>,
 )

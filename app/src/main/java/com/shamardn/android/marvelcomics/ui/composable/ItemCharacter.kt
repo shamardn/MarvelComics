@@ -40,7 +40,7 @@ fun ItemCharacter(
             ComplexImage(img = img, height = 80)
 
             Text(
-                text = state.name,
+                text = state.title,
                 textAlign = TextAlign.Start,
                 color = Color.White,
                 style = MaterialTheme.typography.caption,

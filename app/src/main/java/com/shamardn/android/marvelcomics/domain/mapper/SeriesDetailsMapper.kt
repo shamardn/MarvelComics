@@ -27,7 +27,9 @@ class SeriesDetailsMapper @Inject constructor(
             modifiedDate = convertStringToDate(input.data?.results?.first()?.modified),
             thumbnail = thumbnailMapper.map(thumbnailNotNull),
             characters = marvelByCharacterIdMapper.map(input.data?.results?.first()?.characters!!),
-            comics = marvelByCharacterIdMapper.map(input.data?.results?.first()?.comics!!),
+            comics = marvelByCharacterIdMapper.map(input.data.results.first().comics!!),
+            stories = marvelByCharacterIdMapper.map(input.data.results.first().stories!!),
+
         )
     }
 }

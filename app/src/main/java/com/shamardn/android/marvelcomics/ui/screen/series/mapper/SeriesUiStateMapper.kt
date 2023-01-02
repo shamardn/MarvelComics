@@ -18,6 +18,7 @@ class SeriesUiStateMapper @Inject constructor(
             thumbnail = input.thumbnail,
             characters = marvelListBasicToUiStateMapper.map(input.characters),
             comics = marvelListBasicToUiStateMapper.map(input.comics),
+            stories = marvelListBasicToUiStateMapper.map(input.stories),
         )
     }
 }

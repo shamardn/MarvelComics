@@ -4,6 +4,7 @@ import com.shamardn.android.marvelcomics.data.remote.response.base.BaseResponse
 import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelCharacterDTO
 import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelComicDTO
 import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelSeriesDTO
+import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelStoryDTO
 import com.shamardn.android.marvelcomics.data.remote.service.MarvelService
 import javax.inject.Inject
 
@@ -65,6 +66,30 @@ class MarvelRepositoryImpl @Inject constructor(
     override suspend fun getSeriesByComicId(comicId: Int): BaseResponse<MarvelSeriesDTO> {
         return marvelService.getSeriesByComicId(comicId)
     }
+
+    //endregion
+
+    // region Stories
+    override suspend fun getMarvelStories(): BaseResponse<MarvelStoryDTO> {
+        return marvelService.getMarvelStories()
+    }
+
+    override suspend fun getStoryDetailsById(storyId: Int): BaseResponse<MarvelStoryDTO> {
+        return marvelService.getStoryDetailsById(storyId)
+    }
+
+    override suspend fun getStoriesByCharacterId(characterId: Int): BaseResponse<MarvelStoryDTO> {
+        return marvelService.getStoriesByCharacterId(characterId)
+    }
+
+    override suspend fun getStoriesBySeriesId(seriesId: Int): BaseResponse<MarvelStoryDTO> {
+        return marvelService.getStoriesBySeriesId(seriesId)
+    }
+
+    override suspend fun getStoriesByComicId(comicId: Int): BaseResponse<MarvelStoryDTO> {
+        return marvelService.getStoriesByComicId(comicId)
+    }
+
     //endregion
 }
 

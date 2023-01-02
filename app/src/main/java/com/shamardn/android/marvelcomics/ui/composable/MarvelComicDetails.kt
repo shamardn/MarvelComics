@@ -28,6 +28,7 @@ fun MarvelComicDetails(
     onBackClick: () -> Unit,
     onClickCharacter: (Int, Int) -> Unit,
     onClickSeries: (Int, Int) -> Unit,
+    onClickStories: (Int, Int) -> Unit,
 ) {
     Column(modifier = Modifier
         .fillMaxSize()
@@ -83,10 +84,10 @@ fun MarvelComicDetails(
                         Text(text = state.characters.available.toString())
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Series")
-                        Text(text = "3")
+                        Text(text = state.series.available.toString())
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Stories")
-                        Text(text = "19")
+                        Text(text = state.stories.available.toString())
                     }
                 }
             }
@@ -167,6 +168,7 @@ fun MarvelComicDetails(
             item {
                 Card(
                     modifier = Modifier
+                        .clickable { onClickStories(state.id, Constants.COMIC_TYPE) }
                         .padding(bottom = 16.dp)
                         .fillMaxWidth()
                         .height(130.dp)

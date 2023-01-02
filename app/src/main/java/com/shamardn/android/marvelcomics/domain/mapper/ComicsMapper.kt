@@ -24,6 +24,7 @@ class ComicsMapper @Inject constructor(
                 thumbnail = thumbnailMapper.map(it.thumbnail!!),
                 characters = marvelByCharacterIdMapper.map(it.characters!!),
                 series = marvelByCharacterIdMapper.map(it.series!!),
+                stories = marvelByCharacterIdMapper.map(it.stories!!),
             )
         }
     }

@@ -32,6 +32,7 @@ import com.shamardn.android.marvelcomics.Screen
 import com.shamardn.android.marvelcomics.ui.composable.ItemCharacter
 import com.shamardn.android.marvelcomics.ui.composable.ItemComic
 import com.shamardn.android.marvelcomics.ui.composable.ItemSeries
+import com.shamardn.android.marvelcomics.ui.composable.ItemStory
 import com.shamardn.android.marvelcomics.ui.screen.home.uistate.HomeUiState
 
 @Composable
@@ -49,7 +50,9 @@ fun HomeScreen(
         },
         onClickSeries = { id ->
             navController.navigate(route = "${Screen.SeriesDetails.route}/$id")
-
+        },
+        onClickStory = { id ->
+            navController.navigate(route = "${Screen.StoryDetails.route}/$id")
         }
     )
 }
@@ -61,6 +64,7 @@ private fun HomeContent(
     onClickCharacter: (Int) -> Unit,
     onClickComic: (Int) -> Unit,
     onClickSeries: (Int) -> Unit,
+    onClickStory: (Int) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
@@ -96,9 +100,9 @@ private fun HomeContent(
             item {
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp),
                     contentPadding = PaddingValues(horizontal = 16.dp)) {
-                    items(items = state.marvelCharacters, key = { character ->
-                        character.name
-                    }) {
+                    items(
+                        items = state.marvelCharacters,
+                    ) {
                         ItemCharacter(state = it,
                             onClickCharacter = { onClickCharacter(it.id) }
                         )
@@ -149,6 +153,30 @@ private fun HomeContent(
                     ) {
                         ItemSeries(state = it,
                             onClickSeries = { onClickSeries(it.id) }
+                        )
+                    }
+                }
+            }
+
+            stickyHeader {
+                Text(text = stringResource(R.string.stories),
+                    color = Color.Red,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier
+                        .padding(start = 16.dp, top = 16.dp)
+                        .fillMaxWidth()
+                        .background(color = Color.White))
+
+            }
+            item {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp)) {
+                    items(
+                        items = state.marvelStories,
+                    ) {
+                        ItemStory(state = it,
+                            onClickStory = { onClickStory(it.id) }
                         )
                     }
                 }

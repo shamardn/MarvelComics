@@ -28,6 +28,7 @@ class ComicDetailsMapper @Inject constructor(
             thumbnail = thumbnailMapper.map(thumbnailNotNull),
             characters = basicDTOMapper.map(input.data?.results?.first()?.characters!!),
             series = basicDTOMapper.map(input.data.results.first().series!!),
+            stories = basicDTOMapper.map(input.data.results.first().stories!!),
         )
     }
 }

@@ -21,6 +21,7 @@ fun ComicDetailsScreen(
         onBackClick = { navController.popBackStack() },
         onClickCharacter = { id, idType -> navController.navigate("${Screen.Characters.route}/$id/$idType")},
         onClickSeries = { id, idType -> navController.navigate("${Screen.Series.route}/$id/$idType")},
+        onClickStories = { id, idType -> navController.navigate("${Screen.Stories.route}/$id/$idType")},
     )
 }
 
@@ -30,11 +31,13 @@ fun ComicContent(
     onBackClick: () -> Unit,
     onClickCharacter: (Int, Int) -> Unit,
     onClickSeries: (Int, Int) -> Unit,
+    onClickStories: (Int, Int) -> Unit,
 ) {
     MarvelComicDetails(
         state = state,
         onBackClick = onBackClick,
         onClickCharacter = onClickCharacter,
         onClickSeries = onClickSeries,
+        onClickStories = onClickStories,
     )
 }

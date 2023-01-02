@@ -22,13 +22,14 @@ class CharacterDetailsMapper @Inject constructor(
         }
         return MarvelCharacter(
             id = input.data?.results?.first()?.id ?: 0,
-            name = input.data?.results?.first()?.name ?: "",
+            title = input.data?.results?.first()?.title ?: "",
             description = input.data?.results?.first()?.description ?: "",
             modifiedDate = convertStringToDate(input.data?.results?.first()?.modified),
             thumbnail = thumbnailMapper.map(thumbnailNotNull),
             resourceURI = input.data?.results?.first()?.resourceURI ?: "",
             comics = marvelByCharacterIdMapper.map(input.data?.results?.first()?.comics!!),
             series = marvelByCharacterIdMapper.map(input.data.results.first().series!!),
+            stories = marvelByCharacterIdMapper.map(input.data.results.first().stories!!),
         )
     }
 }

@@ -6,39 +6,39 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.shamardn.android.marvelcomics.Screen
-import com.shamardn.android.marvelcomics.ui.composable.MarvelCharacterDetails
-import com.shamardn.android.marvelcomics.ui.screen.characterDetails.uistate.CharacterDetailsUiState
+import com.shamardn.android.marvelcomics.ui.composable.MarvelStoryDetails
+import com.shamardn.android.marvelcomics.ui.screen.stories.uistate.StoryDetailsUiState
 
 @Composable
-fun CharacterDetailsScreen(
+fun StoryDetailsScreen(
     navController: NavController,
-    viewModel: CharacterDetailsViewModel = hiltViewModel(),
+    viewModel: StoryDetailsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
 
-    CharacterContent(
+    StoryContent(
         state = state,
         onBackClick = { navController.popBackStack(Screen.Home.route, false) },
         onClickComics = { id, idType -> navController.navigate("${Screen.Comics.route}/$id/$idType")},
         onClickSeries = { id, idType -> navController.navigate("${Screen.Series.route}/$id/$idType")},
-        onClickStories = { id, idType -> navController.navigate("${Screen.Stories.route}/$id/$idType")},
+        onClickCharacters = { id, idType -> navController.navigate("${Screen.Characters.route}/$id/$idType")},
     )
 }
 
 @Composable
-fun CharacterContent(
-    state: CharacterDetailsUiState,
+fun StoryContent(
+    state: StoryDetailsUiState,
     onBackClick: () -> Unit,
     onClickComics: (Int, Int) -> Unit,
     onClickSeries: (Int, Int) -> Unit,
-    onClickStories: (Int, Int) -> Unit,
+    onClickCharacters: (Int, Int) -> Unit,
 ) {
-    MarvelCharacterDetails(
+    MarvelStoryDetails(
         state = state,
         onBackClick = onBackClick,
         onSaveClick = {},
         onClickComics = onClickComics,
         onClickSeries = onClickSeries,
-        onClickStories = onClickStories,
+        onClickCharacters = onClickCharacters,
     )
 }

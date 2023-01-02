@@ -6,10 +6,12 @@ import androidx.lifecycle.viewModelScope
 import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelCharactersUseCase
 import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelComicsUseCase
 import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelSeriesUseCase
+import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelStoriesUseCase
 import com.shamardn.android.marvelcomics.ui.screen.characterDetails.mapper.CharactersUiStateMapper
 import com.shamardn.android.marvelcomics.ui.screen.comics.mapper.ComicsUiStateMapper
 import com.shamardn.android.marvelcomics.ui.screen.home.uistate.HomeUiState
 import com.shamardn.android.marvelcomics.ui.screen.series.mapper.SeriesUiStateMapper
+import com.shamardn.android.marvelcomics.ui.screen.stories.mapper.StoriesUiStateMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,9 +24,11 @@ class HomeViewModel @Inject constructor(
     private val fetchMarvelCharactersUseCase: FetchMarvelCharactersUseCase,
     private val getComicsUseCase: FetchMarvelComicsUseCase,
     private val getSeriesUseCase: FetchMarvelSeriesUseCase,
+    private val getStoriesUseCase: FetchMarvelStoriesUseCase,
     private val charactersUiStateMapper: CharactersUiStateMapper,
     private val comicsUiStateMapper: ComicsUiStateMapper,
     private val seriesUiStateMapper: SeriesUiStateMapper,
+    private val storiesUiStateMapper: StoriesUiStateMapper,
 ): ViewModel() {
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
@@ -33,6 +37,25 @@ class HomeViewModel @Inject constructor(
         getCharacters()
         getComics()
         getSeries()
+        getStories()
+    }
+
+    private fun getStories() {
+        viewModelScope.launch {
+            try {
+                val stories = getStoriesUseCase().map { storiesUiStateMapper.map(it) }
+                _state.update { it.copy(
+                    marvelStories = stories
+                )
+                }
+            } catch (e: Throwable) {
+                _state.update {
+                    it.copy(
+                        isError = true,
+                    )
+                }
+            }
+        }
     }
 
     private fun getSeries() {
