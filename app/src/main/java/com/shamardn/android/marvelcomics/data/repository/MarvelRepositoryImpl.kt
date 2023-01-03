@@ -29,6 +29,10 @@ class MarvelRepositoryImpl @Inject constructor(
         return marvelService.getCharactersBySeriesId(seriesId)
     }
 
+    override suspend fun getCharactersByStoryId(storyId: Int): BaseResponse<MarvelCharacterDTO> {
+        return marvelService.getCharactersByStoryId(storyId)
+    }
+
     //endregion
 
     //region Comic
@@ -48,6 +52,10 @@ class MarvelRepositoryImpl @Inject constructor(
         return marvelService.getComicsBySeriesId(seriesId)
     }
 
+    override suspend fun getComicsByStoryId(storyId: Int): BaseResponse<MarvelComicDTO> {
+        return marvelService.getComicsByStoryId(storyId)
+    }
+
     //endregion
 
     //region Series
@@ -63,8 +71,8 @@ class MarvelRepositoryImpl @Inject constructor(
         return marvelService.getSeriesByCharacterId(characterId)
     }
 
-    override suspend fun getSeriesByComicId(comicId: Int): BaseResponse<MarvelSeriesDTO> {
-        return marvelService.getSeriesByComicId(comicId)
+    override suspend fun getSeriesByStoryId(storyId: Int): BaseResponse<MarvelSeriesDTO> {
+        return marvelService.getSeriesByStoryId(storyId)
     }
 
     //endregion

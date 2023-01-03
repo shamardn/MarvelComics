@@ -27,6 +27,12 @@ interface MarvelService {
     suspend fun getCharactersBySeriesId(
         @Path("seriesId") seriesId: Int,
     ): BaseResponse<MarvelCharacterDTO>
+
+    @GET("stories/{storyId}/characters")
+    suspend fun getCharactersByStoryId(
+        @Path("storyId") storyId: Int,
+    ): BaseResponse<MarvelCharacterDTO>
+
     //endregion
 
     //region Comic
@@ -48,6 +54,11 @@ interface MarvelService {
         @Path("seriesId") seriesId: Int,
     ): BaseResponse<MarvelComicDTO>
 
+    @GET("stories/{storyId}/comics")
+    suspend fun getComicsByStoryId(
+        @Path("storyId") storyId: Int,
+    ): BaseResponse<MarvelComicDTO>
+
     //endregion
 
     //region Series
@@ -64,9 +75,9 @@ interface MarvelService {
         @Path("characterId") characterId: Int,
     ): BaseResponse<MarvelSeriesDTO>
 
-    @GET("comics/{comicId}/series")
-    suspend fun getSeriesByComicId(
-        @Path("comicId") comicId: Int,
+    @GET("stories/{storyId}/series")
+    suspend fun getSeriesByStoryId(
+        @Path("storyId") storyId: Int,
     ): BaseResponse<MarvelSeriesDTO>
 
     //endregion

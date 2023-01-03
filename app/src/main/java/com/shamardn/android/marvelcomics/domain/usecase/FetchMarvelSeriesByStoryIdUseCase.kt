@@ -5,11 +5,11 @@ import com.shamardn.android.marvelcomics.domain.mapper.SeriesMapper
 import com.shamardn.android.marvelcomics.domain.model.MarvelSeries
 import javax.inject.Inject
 
-class FetchMarvelSeriesByComicIdUseCase @Inject constructor(
+class FetchMarvelSeriesByStoryIdUseCase @Inject constructor(
     private val marvelRepository: MarvelRepository,
     private val seriesMapper: SeriesMapper
 ){
-     suspend operator fun invoke(comicId: Int): List<MarvelSeries> {
-         return seriesMapper.map(marvelRepository.getSeriesByComicId(comicId))
+     suspend operator fun invoke(storyId: Int): List<MarvelSeries> {
+         return seriesMapper.map(marvelRepository.getSeriesByStoryId(storyId))
     }
 }

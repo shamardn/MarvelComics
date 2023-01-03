@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelComicsByCharacterIdUseCase
 import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelComicsBySeriesIdUseCase
+import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelComicsByStoryIdUseCase
 import com.shamardn.android.marvelcomics.ui.screen.comics.mapper.ComicsUiStateMapper
 import com.shamardn.android.marvelcomics.ui.screen.comics.uistate.ComicsUiState
 import com.shamardn.android.marvelcomics.utils.Constants
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class ComicsViewModel @Inject constructor(
     private val fetchMarvelComicByCharacterId: FetchMarvelComicsByCharacterIdUseCase,
     private val fetchMarvelComicBySeriesId: FetchMarvelComicsBySeriesIdUseCase,
+    private val fetchMarvelComicByStoryId: FetchMarvelComicsByStoryIdUseCase,
     private val comicsUiStateMapper: ComicsUiStateMapper,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -39,6 +41,9 @@ class ComicsViewModel @Inject constructor(
             }
             Constants.SERIES_TYPE -> {
                 getComicsBySeriesId()
+            }
+            Constants.STORY_TYPE -> {
+                getComicsByStoryId()
             }
             else -> {
 
@@ -68,6 +73,24 @@ class ComicsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val comics = fetchMarvelComicBySeriesId(id).map { comicsUiStateMapper.map(it) }
+                _state.update { it.copy(
+                    marvelComics = comics
+                )
+                }
+            } catch (e: Throwable) {
+                _state.update {
+                    it.copy(
+                        isError = true,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getComicsByStoryId() {
+        viewModelScope.launch {
+            try {
+                val comics = fetchMarvelComicByStoryId(id).map { comicsUiStateMapper.map(it) }
                 _state.update { it.copy(
                     marvelComics = comics
                 )

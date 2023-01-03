@@ -7,7 +7,8 @@ import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelSeriesDT
 import com.shamardn.android.marvelcomics.data.remote.response.dto.MarvelStoryDTO
 
 interface MarvelRepository {
-    // Character
+
+    //region Character
     suspend fun getMarvelCharacters(): BaseResponse<MarvelCharacterDTO>
 
     suspend fun getCharacterId(characterId: Int): BaseResponse<MarvelCharacterDTO>
@@ -16,7 +17,11 @@ interface MarvelRepository {
 
     suspend fun getCharactersBySeriesId(seriesId: Int): BaseResponse<MarvelCharacterDTO>
 
-    // comic
+    suspend fun getCharactersByStoryId(storyId: Int): BaseResponse<MarvelCharacterDTO>
+
+    //endregion
+
+    //region comic
     suspend fun getMarvelComics(): BaseResponse<MarvelComicDTO>
 
     suspend fun getComicId(comicId: Int): BaseResponse<MarvelComicDTO>
@@ -25,16 +30,22 @@ interface MarvelRepository {
 
     suspend fun getComicsBySeriesId(seriesId: Int): BaseResponse<MarvelComicDTO>
 
-    // series
+    suspend fun getComicsByStoryId(storyId: Int): BaseResponse<MarvelComicDTO>
+
+    //endregion
+
+    //region series
     suspend fun getMarvelSeries(): BaseResponse<MarvelSeriesDTO>
 
     suspend fun getSeriesId(seriesId: Int): BaseResponse<MarvelSeriesDTO>
 
     suspend fun getSeriesByCharacterId(characterId: Int): BaseResponse<MarvelSeriesDTO>
 
-    suspend fun getSeriesByComicId(comicId: Int): BaseResponse<MarvelSeriesDTO>
+    suspend fun getSeriesByStoryId(storyId: Int): BaseResponse<MarvelSeriesDTO>
 
-    // stories
+    //endregion
+
+    //region stories
 
     suspend fun getMarvelStories(): BaseResponse<MarvelStoryDTO>
 
@@ -45,4 +56,6 @@ interface MarvelRepository {
     suspend fun getStoriesByComicId(comicId: Int): BaseResponse<MarvelStoryDTO>
 
     suspend fun getStoryDetailsById(storyId: Int): BaseResponse<MarvelStoryDTO>
+
+    //endregion
 }

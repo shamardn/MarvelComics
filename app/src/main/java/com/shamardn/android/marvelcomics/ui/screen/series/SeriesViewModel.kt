@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelSeriesByCharacterIdUseCase
-import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelSeriesByComicIdUseCase
+import com.shamardn.android.marvelcomics.domain.usecase.FetchMarvelSeriesByStoryIdUseCase
 import com.shamardn.android.marvelcomics.ui.screen.series.mapper.SeriesUiStateMapper
 import com.shamardn.android.marvelcomics.ui.screen.series.uistate.SeriesUiState
 import com.shamardn.android.marvelcomics.utils.Constants
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SeriesViewModel @Inject constructor(
     private val fetchMarvelSeriesByCharacterId: FetchMarvelSeriesByCharacterIdUseCase,
-    private val fetchMarvelSeriesByComicId: FetchMarvelSeriesByComicIdUseCase,
+    private val fetchMarvelSeriesByStoryId: FetchMarvelSeriesByStoryIdUseCase,
     private val SeriesUiStateMapper: SeriesUiStateMapper,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -67,7 +67,7 @@ class SeriesViewModel @Inject constructor(
     private fun getSeriesByStoryId() {
         viewModelScope.launch {
             try {
-                val series = fetchMarvelSeriesByComicId(id).map { SeriesUiStateMapper.map(it) }
+                val series = fetchMarvelSeriesByStoryId(id).map { SeriesUiStateMapper.map(it) }
                 _state.update { it.copy(
                     marvelSeries = series
                 )
