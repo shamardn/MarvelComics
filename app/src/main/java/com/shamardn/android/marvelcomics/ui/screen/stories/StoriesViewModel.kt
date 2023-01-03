@@ -31,6 +31,12 @@ class StoriesViewModel @Inject constructor(
     private val id = arg.toInt()
     private val idType = argIdType.toInt()
     init {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                isError = false,
+            )
+        }
         checkIdType(idType)
     }
 
@@ -55,13 +61,16 @@ class StoriesViewModel @Inject constructor(
             try {
                 val stories = fetchMarvelStoriesByCharacterId(id).map { storiesUiStateMapper.map(it) }
                 _state.update { it.copy(
-                    marvelStories = stories
+                    marvelStories = stories,
+                    isLoading = false,
+                    isError = false,
                 )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false,
                     )
                 }
             }
@@ -73,13 +82,16 @@ class StoriesViewModel @Inject constructor(
             try {
                 val stories = fetchMarvelStoriesByComicId(id).map { storiesUiStateMapper.map(it) }
                 _state.update { it.copy(
-                    marvelStories = stories
+                    marvelStories = stories,
+                    isLoading = false,
+                    isError = false,
                 )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false,
                     )
                 }
             }
@@ -91,16 +103,28 @@ class StoriesViewModel @Inject constructor(
             try {
                 val stories = fetchMarvelStoriesBySeriesId(id).map { storiesUiStateMapper.map(it) }
                 _state.update { it.copy(
-                    marvelStories = stories
+                    marvelStories = stories,
+                    isLoading = false,
+                    isError = false,
                 )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false
                     )
                 }
             }
         }
+    }
+    fun onClickTryAgain(){
+        _state.update {
+            it.copy(
+                isLoading = true,
+                isError = false,
+            )
+        }
+        checkIdType(idType)
     }
 }

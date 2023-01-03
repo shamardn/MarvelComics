@@ -9,6 +9,7 @@ import com.shamardn.android.marvelcomics.ui.screen.series.mapper.SeriesUiStateMa
 import com.shamardn.android.marvelcomics.ui.screen.series.uistate.SeriesUiState
 import com.shamardn.android.marvelcomics.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -45,7 +46,16 @@ class SeriesViewModel @Inject constructor(
                 getSeriesByStoryId()
             }
             else -> {
+                onFetchSeriesByComicId()
+            }
+        }
+    }
 
+    private fun onFetchSeriesByComicId() {
+        viewModelScope.launch {
+            delay(1000)
+            _state.update {
+                it.copy(isLoading = false)
             }
         }
     }
