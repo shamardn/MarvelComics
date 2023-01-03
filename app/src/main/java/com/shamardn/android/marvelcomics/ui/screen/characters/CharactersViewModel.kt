@@ -31,6 +31,11 @@ class CharactersViewModel @Inject constructor(
     private val id = arg.toInt()
     private val idType = argIdType.toInt()
     init {
+        _state.update {
+            it.copy(
+                isLoading = true ,
+                isError = false,
+            ) }
         checkIdType(idType)
     }
 
@@ -57,13 +62,16 @@ class CharactersViewModel @Inject constructor(
                 val characters = fetchMarvelCharacterByComicId(id).map { charactersUiStateMapper.map(it) }
                 _state.update {
                     it.copy(
-                        marvelCharacters = characters
+                        marvelCharacters = characters,
+                        isLoading = false,
+                        isError = false,
                     )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false
                     )
                 }
             }
@@ -76,13 +84,16 @@ class CharactersViewModel @Inject constructor(
                 val characters = fetchMarvelCharacterByCSeriesId(id).map { charactersUiStateMapper.map(it) }
                 _state.update {
                     it.copy(
-                        marvelCharacters = characters
+                        marvelCharacters = characters,
+                        isLoading = false,
+                        isError = false,
                     )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false,
                     )
                 }
             }
@@ -95,16 +106,29 @@ class CharactersViewModel @Inject constructor(
                 val characters = fetchMarvelCharacterByStoryId(id).map { charactersUiStateMapper.map(it) }
                 _state.update {
                     it.copy(
-                        marvelCharacters = characters
+                        marvelCharacters = characters,
+                        isLoading = false,
+                        isError = false
                     )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false
                     )
                 }
             }
         }
+    }
+
+    fun onClickTryAgain() {
+        _state.update {
+            it.copy(
+                isLoading = true ,
+                isError = false,
+            ) }
+        checkIdType(idType)
+
     }
 }

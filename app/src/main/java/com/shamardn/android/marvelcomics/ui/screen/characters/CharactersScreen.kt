@@ -2,6 +2,7 @@ package com.shamardn.android.marvelcomics.ui.screen.characters
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -21,7 +22,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.shamardn.android.marvelcomics.R
 import com.shamardn.android.marvelcomics.Screen
+import com.shamardn.android.marvelcomics.ui.composable.ErrorView
+import com.shamardn.android.marvelcomics.ui.composable.ImageForEmptyList
 import com.shamardn.android.marvelcomics.ui.composable.ItemCharacter
+import com.shamardn.android.marvelcomics.ui.composable.LoadingView
 import com.shamardn.android.marvelcomics.ui.screen.characters.uistate.CharactersUiState
 
 @Composable
@@ -30,11 +34,13 @@ fun CharactersScreen(
     viewModel: CharactersViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
+
     CharactersContent(state = state,
         onBackClick = { navController.navigateUp() },
         onClickCharacter = { id ->
             navController.navigate(route = "${Screen.CharacterDetails.route}/$id")
-        }
+        },
+        onClickTryAgain = viewModel::onClickTryAgain,
     )
 }
 
@@ -44,7 +50,9 @@ private fun CharactersContent(
     state: CharactersUiState,
     onBackClick: () -> Unit,
     onClickCharacter: (Int) -> Unit,
+    onClickTryAgain: () -> Unit,
 ) {
+    val isEmptyList = state.marvelCharacters.isEmpty()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -69,23 +77,37 @@ private fun CharactersContent(
             )
         },
         content = { innerPadding ->
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 128.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(16.dp),
-                modifier = Modifier.padding(innerPadding)
-            ){
-                items(
-                    items = state.marvelCharacters,
-                    key = { currentCharacters ->
-                        currentCharacters.title
-                    }
-                ) {
-                    ItemCharacter(
-                        state = it,
-                        onClickCharacter = { onClickCharacter(it.id) },
+            if (state.isLoading) {
+                LoadingView()
+
+            } else if (state.isError ) {
+                ErrorView(onClickTryAgain)
+            } else {
+                if (isEmptyList && state.isLoading.not()) {
+                    ImageForEmptyList(modifier = Modifier
+                        .fillMaxSize()
+
                     )
+                } else {
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(minSize = 128.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(16.dp),
+                        modifier = Modifier.padding(innerPadding)
+                    ) {
+                        items(
+                            items = state.marvelCharacters,
+                            key = { currentCharacters ->
+                                currentCharacters.title
+                            }
+                        ) {
+                            ItemCharacter(
+                                state = it,
+                                onClickCharacter = { onClickCharacter(it.id) },
+                            )
+                        }
+                    }
                 }
             }
         }

@@ -15,4 +15,6 @@
     <string name="no_desc">No description available right now. You can check the official website.</string>
     <string name="save_icon">Save Icon</string>
     <string name="try_again">Try Again</string>
+    <string name="no_items">HYDRA has stolen this page from the S.H.I.E.L.D. database!  </string>
+    <string name="go_back">Go back to your previous page or try using our site search to find something specific.</string>
 </resources>
