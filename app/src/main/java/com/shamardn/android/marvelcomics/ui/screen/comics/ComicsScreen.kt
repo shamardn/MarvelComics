@@ -2,6 +2,7 @@ package com.shamardn.android.marvelcomics.ui.screen.comics
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -21,7 +22,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.shamardn.android.marvelcomics.R
 import com.shamardn.android.marvelcomics.Screen
+import com.shamardn.android.marvelcomics.ui.composable.ErrorView
+import com.shamardn.android.marvelcomics.ui.composable.ImageForEmptyList
 import com.shamardn.android.marvelcomics.ui.composable.ItemComic
+import com.shamardn.android.marvelcomics.ui.composable.LoadingView
 import com.shamardn.android.marvelcomics.ui.screen.comics.uistate.ComicsUiState
 
 @Composable
@@ -34,7 +38,8 @@ fun ComicsScreen(
         onBackClick = { navController.navigateUp() },
         onClickComic = { id ->
             navController.navigate(route = "${Screen.ComicDetails.route}/$id")
-        }
+        },
+        onClickTryAgain = viewModel::onClickTryAgain,
     )
 }
 
@@ -44,7 +49,9 @@ private fun ComicsContent(
     state: ComicsUiState,
     onBackClick: () -> Unit,
     onClickComic: (Int) -> Unit,
+    onClickTryAgain: () -> Unit,
 ) {
+    val isEmptyList = state.marvelComics.isEmpty()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -52,7 +59,7 @@ private fun ComicsContent(
             TopAppBar(
                 title = {
                     Text(
-                       text = stringResource(R.string.comics),
+                        text = stringResource(R.string.comics),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -60,7 +67,7 @@ private fun ComicsContent(
                 navigationIcon = {
                     IconButton(onClick = { onBackClick() }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack ,
+                            imageVector = Icons.Filled.ArrowBack,
                             contentDescription = stringResource(id = R.string.desc)
                         )
                     }
@@ -69,20 +76,33 @@ private fun ComicsContent(
             )
         },
         content = { innerPadding ->
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 128.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(16.dp),
-                modifier = Modifier.padding(innerPadding)
-            ){
-                items(
-                    items = state.marvelComics,
-                ) {
-                    ItemComic(
-                        state = it,
-                        onClickComic = { onClickComic(it.id) },
+            if (state.isLoading) {
+                LoadingView()
+
+            } else if (state.isError) {
+                ErrorView(onClickTryAgain)
+            } else {
+                if (isEmptyList && state.isLoading.not()) {
+                    ImageForEmptyList(modifier = Modifier
+                        .fillMaxSize()
                     )
+                } else {
+                    LazyVerticalGrid(
+                        columns = GridCells.Adaptive(minSize = 128.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        contentPadding = PaddingValues(16.dp),
+                        modifier = Modifier.padding(innerPadding)
+                    ) {
+                        items(
+                            items = state.marvelComics,
+                        ) {
+                            ItemComic(
+                                state = it,
+                                onClickComic = { onClickComic(it.id) },
+                            )
+                        }
+                    }
                 }
             }
         }
