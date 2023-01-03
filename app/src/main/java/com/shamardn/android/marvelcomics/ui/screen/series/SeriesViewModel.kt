@@ -29,6 +29,10 @@ class SeriesViewModel @Inject constructor(
     private val id = arg.toInt()
     private val idType = argIdType.toInt()
     init {
+        _state.update { it.copy(
+            isLoading = true,
+            isError = false,
+        ) }
         checkIdType(idType)
     }
 
@@ -51,13 +55,16 @@ class SeriesViewModel @Inject constructor(
             try {
                 val Series = fetchMarvelSeriesByCharacterId(id).map { SeriesUiStateMapper.map(it) }
                 _state.update { it.copy(
-                    marvelSeries = Series
+                    marvelSeries = Series,
+                    isLoading = false,
+                    isError = false,
                 )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false,
                     )
                 }
             }
@@ -69,16 +76,27 @@ class SeriesViewModel @Inject constructor(
             try {
                 val series = fetchMarvelSeriesByStoryId(id).map { SeriesUiStateMapper.map(it) }
                 _state.update { it.copy(
-                    marvelSeries = series
+                    marvelSeries = series,
+                    isLoading = false,
+                    isError = false,
                 )
                 }
             } catch (e: Throwable) {
                 _state.update {
                     it.copy(
                         isError = true,
+                        isLoading = false,
                     )
                 }
             }
         }
+    }
+
+    fun onClickTryAgain() {
+        _state.update { it.copy(
+            isLoading = true,
+            isError = false,
+        ) }
+        checkIdType(idType)
     }
 }
