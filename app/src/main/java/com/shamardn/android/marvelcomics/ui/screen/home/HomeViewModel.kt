@@ -33,7 +33,12 @@ class HomeViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        _state.update { it.copy(isLoading = true) }
+        _state.update {
+            it.copy(
+                isLoading = true,
+                isError = false,
+            )
+        }
         getCharacters()
         getComics()
         getSeries()
@@ -70,6 +75,7 @@ class HomeViewModel @Inject constructor(
                     it.copy(
                         marvelSeries = series,
                         isError = false,
+                        isLoading = false,
                     )
                 }
             } catch (e: Throwable) {
@@ -92,6 +98,7 @@ class HomeViewModel @Inject constructor(
                     it.copy(
                         marvelCharacters = characters,
                         isError = false,
+                        isLoading = false,
                     )
                 }
             } catch (e: Throwable) {
@@ -112,6 +119,7 @@ class HomeViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         marvelComics = comics,
+                        isLoading = false,
                         isError = false,
                     )
                 }

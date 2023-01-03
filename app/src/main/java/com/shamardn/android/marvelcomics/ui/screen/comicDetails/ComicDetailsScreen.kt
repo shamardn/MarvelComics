@@ -22,6 +22,7 @@ fun ComicDetailsScreen(
         onClickCharacter = { id, idType -> navController.navigate("${Screen.Characters.route}/$id/$idType")},
         onClickSeries = { id, idType -> navController.navigate("${Screen.Series.route}/$id/$idType")},
         onClickStories = { id, idType -> navController.navigate("${Screen.Stories.route}/$id/$idType")},
+        onClickTryAgain = viewModel::onClickTryAgain
     )
 }
 
@@ -32,6 +33,7 @@ fun ComicContent(
     onClickCharacter: (Int, Int) -> Unit,
     onClickSeries: (Int, Int) -> Unit,
     onClickStories: (Int, Int) -> Unit,
+    onClickTryAgain: () -> Unit,
 ) {
     MarvelComicDetails(
         state = state,
@@ -39,5 +41,6 @@ fun ComicContent(
         onClickCharacter = onClickCharacter,
         onClickSeries = onClickSeries,
         onClickStories = onClickStories,
+        onClickTryAgain = onClickTryAgain,
     )
 }

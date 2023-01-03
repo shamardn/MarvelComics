@@ -26,6 +26,12 @@ class ComicDetailsViewModel @Inject constructor(
     val id = arg.toInt()
 
     init {
+        _state.update {
+            it.copy(
+                isLoading = true,
+                isError = false,
+            )
+        }
         getComicById()
     }
 
@@ -43,13 +49,29 @@ class ComicDetailsViewModel @Inject constructor(
                         characters = currentComic.characters,
                         series = currentComic.series,
                         stories = currentComic.stories,
+                        isLoading = false,
+                        isError = false,
                     )
                 }
 
-            } catch (e: Exception) {
-                throw e
+            } catch (e: Throwable) {
+                _state.update {
+                    it.copy(
+                        isError = true,
+                        isLoading = false
+                    )
+                }
             }
         }
     }
 
+    fun onClickTryAgain(){
+        _state.update {
+            it.copy(
+                isLoading = true,
+                isError = false,
+            )
+        }
+        getComicById()
+    }
 }

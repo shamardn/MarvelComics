@@ -26,10 +26,16 @@ class StoryDetailsViewModel @Inject constructor(
     val id = arg.toInt()
 
     init {
-        getCharacterById()
+        _state.update {
+            it.copy(
+                isLoading = true,
+                isError = false,
+            )
+        }
+        getStoryById()
     }
 
-    private fun getCharacterById() {
+    private fun getStoryById() {
         viewModelScope.launch {
             try {
                 val currentStory = storyUiStateMapper.map(fetchMarvelStoryByIdUseCase(id))
@@ -42,12 +48,28 @@ class StoryDetailsViewModel @Inject constructor(
                         comics = currentStory.comics,
                         series = currentStory.series,
                         characters = currentStory.characters,
+                        isLoading = false,
+                        isError = false,
                     )
                 }
-            } catch (e: Exception) {
-                throw e
+            } catch (e: Throwable) {
+                _state.update {
+                    it.copy(
+                        isError = true,
+                        isLoading = false
+                    )
+                }
             }
         }
     }
 
+    fun onClickTryAgain(){
+        _state.update {
+            it.copy(
+                isLoading = true,
+                isError = false,
+            )
+        }
+        getStoryById()
+    }
 }

@@ -6,6 +6,8 @@ import com.shamardn.android.marvelcomics.ui.screen.home.uistate.MarvelBasicUiSta
 import java.util.Date
 
 data class StoryDetailsUiState(
+    val isLoading: Boolean = true,
+    val isError: Boolean = false,
     val id: Int = 0,
     val title: String = "",
     val description: String = "",

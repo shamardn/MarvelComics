@@ -53,7 +53,7 @@ class SeriesViewModel @Inject constructor(
 
     private fun onFetchSeriesByComicId() {
         viewModelScope.launch {
-            delay(1000)
+            delay(500)
             _state.update {
                 it.copy(isLoading = false)
             }
