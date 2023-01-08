@@ -63,15 +63,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
 
-//    // Room database
-//    implementation "androidx.room:room-runtime:2.4.3"
-//    implementation "androidx.room:room-ktx:2.4.3"
-//    kapt "androidx.room:room-compiler:2.5.0-beta02"
+    // Room database
+    implementation "androidx.room:room-runtime:2.4.3"
+    implementation "androidx.room:room-ktx:2.4.3"
+    kapt "androidx.room:room-compiler:2.5.0-rc01"
 
     // Retrofit
     def retrofit_version = '2.9.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
 //     Navigation
     implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
     // Viewmodel
