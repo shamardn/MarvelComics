@@ -59,8 +59,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
 
     // Room database
@@ -102,8 +102,10 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
 
-    // ViewPager
-//    implementation 'com.google.accompanist:accompanist-pager:0.25.1'
+//     ViewPager
+    implementation 'com.google.accompanist:accompanist-pager:0.25.1'
+    implementation "androidx.compose.ui:ui-util:$compose_ui_version"
+
 //Material Icons
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 
@@ -116,4 +118,5 @@ dependencies {
 
     //lottie
     implementation "com.airbnb.android:lottie-compose:5.2.0"
+
 }
