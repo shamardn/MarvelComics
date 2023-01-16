@@ -24,6 +24,7 @@ android {
         buildConfigField "String", "API_KEY", localProperties['ApiKey']
         buildConfigField "String", "BASE_URL", localProperties['BaseUrl']
         buildConfigField "String", "PRIVATE_KEY", localProperties['PrivateKey']
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {

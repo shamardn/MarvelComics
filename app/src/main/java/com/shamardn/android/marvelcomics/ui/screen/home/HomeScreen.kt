@@ -32,7 +32,6 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
-import com.google.accompanist.pager.rememberPagerState
 import com.shamardn.android.marvelcomics.R
 import com.shamardn.android.marvelcomics.Screen
 import com.shamardn.android.marvelcomics.ui.composable.*
@@ -110,12 +109,8 @@ private fun HomeContent(
 
                 item {
                     val items = state.marvelCharacters
-                    val pagerState = rememberPagerState()
-                    HorizontalPager(
-                        count = items.size,
-                        state = pagerState,
-                        contentPadding = PaddingValues(horizontal = 32.dp),
-                        modifier = Modifier.fillMaxWidth()
+                    HorizontalPager( count = items.size,
+                        contentPadding = PaddingValues(end = 64.dp)
                     ) { currentPage  ->
                         Card(
                             Modifier
@@ -123,7 +118,6 @@ private fun HomeContent(
                                 .width(250.dp)
                                 .clip(CutCornerShape(bottomEnd = 16.dp))
                                 .graphicsLayer {
-
                                     val pageOffset = calculateCurrentOffsetForPage(currentPage).absoluteValue
 
                                     lerp(
@@ -134,7 +128,6 @@ private fun HomeContent(
                                         scaleX = scale
                                         scaleY = scale
                                     }
-
                                     alpha = lerp(
                                         start = 0.5f,
                                         stop = 1f,
